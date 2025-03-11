@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Items
+  - Doors
+  - Chests
+  - Keys
   layers:
   - Default
   - TransparentFX
@@ -12,10 +16,10 @@ TagManager:
   - Water
   - UI
   - Walls
-  - Items
   - Boxs
   - Doors
-  - 
+  - ____items_____
+  - Keys
   - 
   - 
   - 

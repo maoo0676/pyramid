@@ -12,7 +12,7 @@ public class player : MonoBehaviour
     Vector3 movement;
     bool isJumping = false;
 
-    public GameObject F;
+    public GameObject[] Speech;
 
     // Start is called before the first frame update
     void Start()
@@ -71,57 +71,57 @@ public class player : MonoBehaviour
         jumplimt++;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if (collision.gameObject.name.Equals("Tilemap"))
+        if (other.gameObject.name.Equals("floors"))
         {
             jumplimt = 0;
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D other)
     {
-        if (collision.gameObject.name.Equals("Door"))
+        if (other.gameObject.name.Equals("Door"))
         {
-            F_Active(true);
+            Active(true, 0);
             if (Input.GetButtonDown("Trigger"))
             {
-                collision.gameObject.SetActive(false);
+                other.gameObject.SetActive(false);
             }
         }
-        else if (collision.gameObject.name.Equals("Chest"))
+        else if (other.gameObject.name.Equals("Chest"))
         {
-            F_Active(true);
+            Active(true, 0);
             if (Input.GetButtonDown("Trigger"))
             {
-                collision.gameObject.SetActive(false);
+                other.gameObject.SetActive(false);
             }
         }
         else
         {
-            F_Active(false);
+            Active(false,0);
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        if (collision.gameObject.name.Equals("Key"))
+        if (other.gameObject.name.Equals("Key"))
         {
-            F_Active(true);
+            Active(true, 1);
             if (Input.GetButtonDown("Trigger"))
             {
-                collision.gameObject.SetActive(false);
+                other.gameObject.SetActive(false);
                 keymount++;
             }
         }
         else
         {
-            F_Active(false);
+            Active(false, 1);
         }
     }
 
-    void F_Active(bool turning)
+    void Active(bool turning, int i)
     {
-        F.SetActive(turning);
+        Speech[i].SetActive(turning);
     }
 }
