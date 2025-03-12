@@ -108,13 +108,16 @@ public class player : MonoBehaviour
         if (other.gameObject.name.Equals("Key"))
         {
             Active(true, 1);
-            if (Input.GetButtonDown("Trigger"))
+            if (Input.GetButtonDown("Receive"))
             {
                 other.gameObject.SetActive(false);
                 keymount++;
             }
         }
-        else
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.name.Equals("Key"))
         {
             Active(false, 1);
         }

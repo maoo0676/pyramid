@@ -180,6 +180,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: H2O
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 53
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7a2bcef0b5f70a48b14af321151e85c
+      internalID: -1911606462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -193,6 +214,7 @@ TextureImporter:
     nameFileIdTable:
       Gauge_Background: 1879167527
       Gauge_Bar: -1567685942
+      H2O: -1911606462
       H2O_Gauge: -1783321530
       Hp_Gauge: -736199584
   mipmapLimitGroupName: 
