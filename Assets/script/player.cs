@@ -5,19 +5,24 @@ using UnityEngine;
 public class player : MonoBehaviour
 {
     Rigidbody2D rigid;
+    SpriteRenderer rend;
+    Vector3 movement;
+
     public int movePower = 1;
     public float jumpPower = 1;
-    public int keymount = 0;
+    public static int keymount = 0;
     int jumplimt = 0;
-    Vector3 movement;
     bool isJumping = false;
 
     public GameObject[] Speech;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+
         rigid = gameObject.GetComponent<Rigidbody2D>();
+
+        rend = gameObject.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -47,11 +52,12 @@ public class player : MonoBehaviour
         if (Input.GetAxisRaw("Horizontal") < 0)
         {
             moveVelocity = Vector3.left;
+            rend.flipX = true;
         }
-
         else if (Input.GetAxisRaw("Horizontal") > 0)
         {
             moveVelocity = Vector3.right;
+            rend.flipX = false;
         }
 
         transform.position += moveVelocity * movePower * Time.deltaTime;
@@ -79,48 +85,24 @@ public class player : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay2D(Collision2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (other.gameObject.name.Equals("Door"))
         {
             Active(true, 0);
-            if (Input.GetButtonDown("Trigger"))
-            {
-                other.gameObject.SetActive(false);
-            }
         }
         else if (other.gameObject.name.Equals("Chest"))
         {
             Active(true, 0);
-            if (Input.GetButtonDown("Trigger"))
-            {
-                other.gameObject.SetActive(false);
-            }
         }
-        else
+        else if (other.gameObject.name.Equals("Key"))
         {
-            Active(false,0);
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.gameObject.name.Equals("Key"))
-        {
-            Active(true, 1);
-            if (Input.GetButtonDown("Receive"))
-            {
-                other.gameObject.SetActive(false);
-                keymount++;
-            }
+            Active(true, 0);
         }
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("Key"))
-        {
-            Active(false, 1);
-        }
+        Active(false, 0);
     }
 
     void Active(bool turning, int i)
