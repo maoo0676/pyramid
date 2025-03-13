@@ -5,14 +5,13 @@ using UnityEngine;
 public class Active : MonoBehaviour
 {
     GameObject player;
-    Collision2D col;
+    public GameObject col;
 
     public bool isPlayerEnter; // Player가 범위 안에 왔는지를 판별할 bool 타입 변수
 
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        col = GetComponent<Collision2D>();
 
         isPlayerEnter = false;
     }
@@ -22,7 +21,21 @@ public class Active : MonoBehaviour
         // 플레이어가 범위 안에 있고 E 키를 누른다면
         if (isPlayerEnter && Input.GetButtonDown("Trigger"))
         {
-            col.gameObject.SetActive(false);
+            if(col.name.Equals("Key"))
+            {
+                col.SetActive(false);
+                Bag.Instance.Keymount++;
+            }
+            else if(col.name.Equals("Door"))
+            {
+                if(Bag.Instance.Keymount > 0) {
+                    col.SetActive(false);
+                }
+            }
+            else
+            {
+                col.SetActive(false);
+            }
         }
 
     }

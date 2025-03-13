@@ -10,7 +10,6 @@ public class player : MonoBehaviour
 
     public int movePower = 1;
     public float jumpPower = 1;
-    public static int keymount = 0;
     int jumplimt = 0;
     bool isJumping = false;
 
