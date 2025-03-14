@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class player : MonoBehaviour
+public class Player : MonoBehaviour
 {
+    public static Player Instance;
     Rigidbody2D rigid;
     SpriteRenderer rend;
     Vector3 movement;
@@ -18,6 +19,7 @@ public class player : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        Instance = this;
 
         rigid = gameObject.GetComponent<Rigidbody2D>();
 
@@ -62,7 +64,7 @@ public class player : MonoBehaviour
         transform.position += moveVelocity * movePower * Time.deltaTime;
     }
 
-    void Jump()
+    public void Jump()
     {
         if (!isJumping||jumplimt >= 2)
             return;
@@ -104,7 +106,7 @@ public class player : MonoBehaviour
         Active(false, 0);
     }
 
-    void Active(bool turning, int i)
+    public void Active(bool turning, int i)
     {
         Speech[i].SetActive(turning);
     }

@@ -31,6 +31,11 @@ public class Active : MonoBehaviour
                 if(Bag.Instance.Keymount > 0) {
                     col.SetActive(false);
                 }
+                else {
+                    Player.Instance.Active(true, 2);
+                    StartCoroutine(WaitForIt());
+                    Player.Instance.Active(false, 2);
+                }
             }
             else
             {
@@ -54,5 +59,9 @@ public class Active : MonoBehaviour
         {
             isPlayerEnter = false;
         }
+    }
+    IEnumerator WaitForIt()
+    {
+        yield return new WaitForSeconds(3f);
     }
 }
