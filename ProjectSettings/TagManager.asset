@@ -7,7 +7,6 @@ TagManager:
   - Items
   - Doors
   - Chests
-  - Keys
   - Monster
   layers:
   - Default

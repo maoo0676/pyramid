@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     [Header("# Bag Info")]
     public int Gold = 0;
     public int SlotAmount = 4;
+    public int[] SlotId = { -1 };
+    public int Keymount = 0;
 
 
     // Start is called before the first frame update

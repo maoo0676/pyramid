@@ -6,6 +6,7 @@ public class Active : MonoBehaviour
 {
     GameObject player;
     public GameObject col;
+    public int Id;
 
     public bool isPlayerEnter; // Player가 범위 안에 왔는지를 판별할 bool 타입 변수
 
@@ -21,14 +22,19 @@ public class Active : MonoBehaviour
         // 플레이어가 범위 안에 있고 E 키를 누른다면
         if (isPlayerEnter && Input.GetButtonDown("Trigger"))
         {
-            if(col.name.Equals("Key"))
+            if(col.CompareTag("Items"))
             {
-                col.SetActive(false);
-                Bag.Instance.Keymount++;
+                switch(Id)
+                {
+                    case 0:
+                        col.SetActive(false);
+                        GameManager.Instance.Keymount++;
+                        break;
+                }
             }
             else if(col.name.Equals("Door"))
             {
-                if(Bag.Instance.Keymount > 0) {
+                if(GameManager.Instance.Keymount > 0) {
                     col.SetActive(false);
                 }
                 else {
