@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a7a68595c201a044892d9a9726dd81f3
+guid: b0e5f513abad917428d65404df938441
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 8
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gauge_Background
+      name: AttackEffect_L_0
       rect:
         serializedVersion: 2
-        x: 16
-        y: 63
-        width: 60
-        height: 12
+        x: 32
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,20 +111,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 00d656168511de4419bb704227afa368
-      internalID: 1879167527
+      spriteID: 09725406f2c5fe741b39833c4f45823d
+      internalID: -1527568466
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Gauge_Bar
+      name: AttackEffect_L_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 42
-        width: 60
-        height: 12
+        x: 64
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,20 +132,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 60a50d3fb7a11274083122867bce1a98
-      internalID: -1567685942
+      spriteID: a8c4dd201ec03984685ce457a3cbdb66
+      internalID: 912036663
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hp_Gauge
+      name: AttackEffect_L_2
       rect:
         serializedVersion: 2
-        x: 4
-        y: 23
-        width: 68
-        height: 13
+        x: 96
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,20 +153,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52f44f4594e61c045915b540914a8d8a
-      internalID: -736199584
+      spriteID: 5c900ce42d063ae46a3eeebb150108a0
+      internalID: 1976218380
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: H2O_Gauge
+      name: AttackEffect_R_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 2
-        width: 74
-        height: 16
+        x: 32
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d1d0ff72c24b06741bf2c51e62f33171
-      internalID: -1783321530
+      spriteID: 55e35b7d09e1d69488fc8e83299c6e35
+      internalID: 1648165523
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: H2O
+      name: AttackEffect_R_1
       rect:
         serializedVersion: 2
-        x: 5
-        y: 53
-        width: 7
-        height: 8
+        x: 64
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,8 +195,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f7a2bcef0b5f70a48b14af321151e85c
-      internalID: -1911606462
+      spriteID: 3eb10ee0aeb698541bb62fd47b02f7b4
+      internalID: 1678601839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AttackEffect_R_2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc601680b81c7e645a1b01ac43274cd5
+      internalID: -1063037655
       vertices: []
       indices: 
       edges: []
@@ -212,11 +233,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Gauge_Background: 1879167527
-      Gauge_Bar: -1567685942
-      H2O: -1911606462
-      H2O_Gauge: -1783321530
-      Hp_Gauge: -736199584
+      AttackEffect_L_0: -1527568466
+      AttackEffect_L_1: 912036663
+      AttackEffect_L_2: 1976218380
+      AttackEffect_R_0: 1648165523
+      AttackEffect_R_1: 1678601839
+      AttackEffect_R_2: -1063037655
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

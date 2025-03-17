@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     public static Player Instance;
     Rigidbody2D rigid;
     SpriteRenderer rend;
+    Animator anim;
     Vector3 movement;
 
     public int movePower = 1;
@@ -15,20 +17,28 @@ public class Player : MonoBehaviour
     bool isJumping = false;
 
     public GameObject[] Speech;
+    public Image HpGauge;
 
     // Start is called before the first frame update
     void Awake()
     {
         Instance = this;
 
-        rigid = gameObject.GetComponent<Rigidbody2D>();
+        rigid = GetComponent<Rigidbody2D>();
 
-        rend = gameObject.GetComponent<SpriteRenderer>();
+        rend = GetComponent<SpriteRenderer>();
+
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.Hp <= 0)
+        {
+            return;
+        }
+
         if (Input.GetButtonDown("Jump"))
         {
             isJumping = true;
@@ -37,11 +47,6 @@ public class Player : MonoBehaviour
         Move();
         Jump();
 
-    }
-
-    //Physics engine Updates
-    void FixedUpdate()
-    {
     }
 
     //---------------------------------------------------[Movement Function]
@@ -86,6 +91,29 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject == GameObject.FindGameObjectWithTag("Monster")&&GameManager.Instance.HitTime <= 0)
+        {
+            GameManager.Instance.Hp--;
+            HpGauge.fillAmount -= 0.125f;
+            rigid.constraints = RigidbodyConstraints2D.FreezeAll;
+
+            if (GameManager.Instance.Hp <= 0)
+            {
+                anim.SetBool("isDead", true);
+            }
+            else
+            {
+                anim.SetTrigger("isHit");
+                StartCoroutine(WaitForIt());
+                rigid.constraints = RigidbodyConstraints2D.None;
+                rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                GameManager.Instance.HitTime = 2;
+            }
+        }
+    }
+
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.gameObject.name.Equals("Door"))
@@ -109,5 +137,9 @@ public class Player : MonoBehaviour
     public void Active(bool turning, int i)
     {
         Speech[i].SetActive(turning);
+    }
+    IEnumerator WaitForIt()
+    {
+        yield return new WaitForSeconds(1f);
     }
 }
