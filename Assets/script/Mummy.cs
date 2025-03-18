@@ -8,21 +8,24 @@ public class Mummy : MonoBehaviour
     public Rigidbody2D Return;
 
     bool isLive = true;
-    public bool turn = true;
+    public bool turn = true, isHit = false;
+    int Hp = 4;
 
     Rigidbody2D rigid;
     SpriteRenderer rend;
+    Animator anim;
 
     // Start is called before the first frame update
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         rend = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
     void FixedUpdate()
     {
-        if (!isLive)
+        if (!isLive||isHit)
             return;
 
         Vector3 moveVelocity = Vector3.zero;
@@ -44,5 +47,34 @@ public class Mummy : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject == Return.gameObject) turn = !turn;
+
+        if (other.gameObject == GameObject.FindGameObjectWithTag("Bullet") && !isHit) {
+            Hp--;
+            isHit = true;
+            if(Hp == 0)
+            {
+                StartCoroutine(Dead(2f));
+            }
+            else
+            {
+                StartCoroutine(Hit(1f));
+            }
+        }
+    }
+
+    IEnumerator Dead(float time)
+    {
+        anim.SetBool("isDead", true);
+        isLive = false;
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        yield return new WaitForSeconds(time);
+        gameObject.SetActive(false);
+    }
+
+    IEnumerator Hit(float time)
+    {
+        anim.SetTrigger("isHit");
+        yield return new WaitForSeconds(time);
+        isHit = false;
     }
 }

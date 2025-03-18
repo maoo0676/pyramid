@@ -24,5 +24,9 @@ public class Timer : MonoBehaviour
             slider.value = curTime;
             time = 0;
         }
+        else if(maxTime < curTime)
+        {
+            Player.Instance.Dead();
+        }
     }
 }

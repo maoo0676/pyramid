@@ -8,21 +8,24 @@ public class Fly : MonoBehaviour
     public Rigidbody2D Target;
 
     bool isLive = true;
-    public bool TargetIn = false;
+    public bool TargetIn = false, isHit = false;
+    int Hp = 2;
 
     Rigidbody2D rigid;
     SpriteRenderer rend;
+    Animator anim;
 
     // Start is called before the first frame update
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         rend = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
     void FixedUpdate()
     {
-        if (!TargetIn||!isLive)
+        if (!TargetIn||!isLive||isHit)
             return;
 
         Vector2 dirVec = Target.position - rigid.position;
@@ -33,7 +36,7 @@ public class Fly : MonoBehaviour
 
     void LateUpdate()
     {
-        if (!TargetIn || !isLive)
+        if (!TargetIn || !isLive||isHit)
             return;
 
         rend.flipX = Target.position.x < rigid.position.x;
@@ -42,10 +45,40 @@ public class Fly : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject == Target.gameObject) TargetIn = true;
+
+        if (other.gameObject == GameObject.FindGameObjectWithTag("Bullet")&&!isHit)
+        {
+            Hp--;
+            isHit = true;
+            if (Hp == 0)
+            {
+                StartCoroutine(Dead(2f));
+            }
+            else
+            {
+                StartCoroutine(Hit(1f));
+            }
+        }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject == Target.gameObject) TargetIn = false;
+    }
+
+    IEnumerator Dead(float time)
+    {
+        anim.SetBool("isDead", true);
+        isLive = false;
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        yield return new WaitForSeconds(time);
+        gameObject.SetActive(false);
+    }
+
+    IEnumerator Hit(float time)
+    {
+        anim.SetTrigger("isHit");
+        yield return new WaitForSeconds(time);
+        isHit = false;
     }
 }

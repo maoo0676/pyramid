@@ -15,8 +15,11 @@ public class Player : MonoBehaviour
     public float jumpPower = 1;
     int jumplimt = 0;
     bool isJumping = false;
+    bool isAttack = false;
+    bool Freeze = false;
 
     public GameObject[] Speech;
+    public GameObject[] AttackEffect;
     public Image HpGauge;
 
     // Start is called before the first frame update
@@ -34,7 +37,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.Hp <= 0)
+        if (GameManager.Instance.Hp <= 0||Freeze)
         {
             return;
         }
@@ -44,7 +47,15 @@ public class Player : MonoBehaviour
             isJumping = true;
         }
 
+        if (Input.GetButtonDown("Attack"))
+        {
+            isAttack = true;
+        }
+
         Move();
+
+        Attack();
+
         Jump();
 
     }
@@ -72,7 +83,10 @@ public class Player : MonoBehaviour
     public void Jump()
     {
         if (!isJumping||jumplimt >= 2)
+        {
+            isJumping = false;
             return;
+        }
 
         //Prevent Velocity amplification.
         rigid.velocity = Vector2.zero;
@@ -81,6 +95,23 @@ public class Player : MonoBehaviour
 
         isJumping = false;
         jumplimt++;
+    }
+
+    public void Attack()
+    {
+        if (!isAttack||GameManager.Instance.AttackDelay > 0)
+        {
+            isAttack = false;
+            return;
+        }
+
+        int LR = (rend.flipX)? 0: 1;
+        AttackEffect[LR].SetActive(true);
+
+        StartCoroutine(delete(0.2f, LR));
+
+        GameManager.Instance.AttackDelay = 2f;
+        isAttack = false;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -97,20 +128,22 @@ public class Player : MonoBehaviour
         {
             GameManager.Instance.Hp--;
             HpGauge.fillAmount -= 0.125f;
-            rigid.constraints = RigidbodyConstraints2D.FreezeAll;
+            Freeze = true;
 
             if (GameManager.Instance.Hp <= 0)
             {
-                anim.SetBool("isDead", true);
+                Dead();
             }
             else
             {
                 anim.SetTrigger("isHit");
-                StartCoroutine(WaitForIt());
-                rigid.constraints = RigidbodyConstraints2D.None;
-                rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                StartCoroutine(Freezecancel(0.6f));
                 GameManager.Instance.HitTime = 2;
             }
+        }
+        else if (other.gameObject.name.Equals("floors"))
+        {
+            jumplimt = 0;
         }
     }
 
@@ -138,8 +171,24 @@ public class Player : MonoBehaviour
     {
         Speech[i].SetActive(turning);
     }
-    IEnumerator WaitForIt()
+
+    IEnumerator Freezecancel(float time)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(time);
+        Freeze = false;
+    }
+
+    public void Dead()
+    {
+        Freeze = true;
+        rigid.constraints = RigidbodyConstraints2D.FreezeAll;
+        anim.SetBool("isDead", true);
+    }
+
+    IEnumerator delete(float time, int i)
+    {
+        yield return new WaitForSeconds(time);
+
+        AttackEffect[i].SetActive(false);
     }
 }

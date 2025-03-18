@@ -39,8 +39,7 @@ public class Active : MonoBehaviour
                 }
                 else {
                     Player.Instance.Active(true, 2);
-                    StartCoroutine(WaitForIt());
-                    Player.Instance.Active(false, 2);
+                    StartCoroutine(Wait(2));
                 }
             }
             else
@@ -66,8 +65,9 @@ public class Active : MonoBehaviour
             isPlayerEnter = false;
         }
     }
-    IEnumerator WaitForIt()
+    IEnumerator Wait(int i)
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
+        Player.Instance.Active(false, i);
     }
 }

@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
     public Image slot;
     [Header("# Player Info")]
     public int Hp = 8;
-    public float HitTime = 0;
+    public float HitTime = 0.1f;
+    public float AttackDelay = 0f;
     [Header("# Bag Info")]
     public int Gold = 0;
     public int SlotAmount = 4;
@@ -30,6 +31,20 @@ public class GameManager : MonoBehaviour
         if (HitTime > 0)
         {
             HitTime -= Time.deltaTime;
+        }
+        if (AttackDelay > 0)
+        {
+            AttackDelay -= Time.deltaTime;
+        }
+    }
+
+    public void Sleep(float maxtime)
+    {
+        float time = 0;
+        while(true)
+        {
+            time += Time.deltaTime;
+            if (time >= maxtime) break;
         }
     }
 }

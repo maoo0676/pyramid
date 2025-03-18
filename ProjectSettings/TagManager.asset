@@ -8,6 +8,7 @@ TagManager:
   - Doors
   - Chests
   - Monster
+  - Bullet
   layers:
   - Default
   - TransparentFX
