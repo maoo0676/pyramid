@@ -32,14 +32,14 @@ public class Active : MonoBehaviour
                         break;
                 }
             }
-            else if(col.name.Equals("Door"))
+            else if(col.CompareTag("Doors"))
             {
                 if(GameManager.Instance.Keymount > 0) {
                     col.SetActive(false);
                 }
                 else {
                     Player.Instance.Active(true, 2);
-                    StartCoroutine(Wait(2));
+                    StartCoroutine(GameManager.Instance.P_active(2));
                 }
             }
             else
@@ -64,10 +64,5 @@ public class Active : MonoBehaviour
         {
             isPlayerEnter = false;
         }
-    }
-    IEnumerator Wait(int i)
-    {
-        yield return new WaitForSeconds(2f);
-        Player.Instance.Active(false, i);
     }
 }

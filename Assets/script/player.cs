@@ -13,14 +13,12 @@ public class Player : MonoBehaviour
 
     public int movePower = 1;
     public float jumpPower = 1;
-    int jumplimt = 0;
     bool isJumping = false;
     bool isAttack = false;
     bool Freeze = false;
 
     public GameObject[] Speech;
     public GameObject[] AttackEffect;
-    public Image HpGauge;
 
     // Start is called before the first frame update
     void Awake()
@@ -82,11 +80,12 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
-        if (!isJumping||jumplimt >= 2)
+        if (!isJumping||GameManager.Instance.jumplimt >= 1)
         {
             isJumping = false;
             return;
         }
+        GameManager.Instance.jumplimt++;
 
         //Prevent Velocity amplification.
         rigid.velocity = Vector2.zero;
@@ -94,7 +93,6 @@ public class Player : MonoBehaviour
         rigid.AddForce(Vector3.up * jumpPower, ForceMode2D.Impulse);
 
         isJumping = false;
-        jumplimt++;
     }
 
     public void Attack()
@@ -118,16 +116,15 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.name.Equals("floors"))
         {
-            jumplimt = 0;
+            GameManager.Instance.jumplimt = 0;
         }
     }
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject == GameObject.FindGameObjectWithTag("Monster")&&GameManager.Instance.HitTime <= 0)
+        if (other.gameObject.CompareTag("Monster")&&GameManager.Instance.HitTime <= 0)
         {
             GameManager.Instance.Hp--;
-            HpGauge.fillAmount -= 0.125f;
             Freeze = true;
 
             if (GameManager.Instance.Hp <= 0)
@@ -143,21 +140,21 @@ public class Player : MonoBehaviour
         }
         else if (other.gameObject.name.Equals("floors"))
         {
-            jumplimt = 0;
+            GameManager.Instance.jumplimt = 0;
         }
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("Door"))
+        if (other.gameObject.CompareTag("Doors"))
         {
             Active(true, 0);
         }
-        else if (other.gameObject.name.Equals("Chest"))
+        else if (other.gameObject.CompareTag("Chests"))
         {
             Active(true, 0);
         }
-        else if (other.gameObject.name.Equals("Key"))
+        else if (other.gameObject.CompareTag("Items"))
         {
             Active(true, 0);
         }
@@ -182,6 +179,8 @@ public class Player : MonoBehaviour
     {
         Freeze = true;
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
         anim.SetBool("isDead", true);
     }
 

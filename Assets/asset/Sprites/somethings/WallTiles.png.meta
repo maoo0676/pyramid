@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bac8b27ddceeafe4e863e1a6c2b2ca00
+guid: b836fa1928e04a64aa8a1d692abab254
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 12
+  spritePixelsToUnits: 8
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -97,454 +97,412 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Items_0
+      name: corridorTiles_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 73
-        width: 12
-        height: 17
+        x: 8
+        y: 56
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1733307e5c7015c47bc077285fdcd134
-      internalID: 1093031958
+      spriteID: 23e9329850197f449843bb66e2c61dbc
+      internalID: -1002965524
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_1
+      name: corridorTiles_1
       rect:
         serializedVersion: 2
-        x: 14
-        y: 73
-        width: 12
-        height: 17
+        x: 16
+        y: 56
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2400929c39afce6478787baf2c822dcd
-      internalID: -2137774197
+      spriteID: 3cdfcd7be3a180647be563bb39410585
+      internalID: -1237296743
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_2
+      name: corridorTiles_2
       rect:
         serializedVersion: 2
-        x: 27
-        y: 73
-        width: 12
-        height: 17
+        x: 24
+        y: 56
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf7c5132beab0f0438685b65f394acf8
-      internalID: 368239381
+      spriteID: db1255107b5028a4f97df7921878b8c4
+      internalID: 877253556
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_3
+      name: corridorTiles_3
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 56
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba0e8b495070c22499626d74c9250911
+      internalID: 906660963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: corridorTiles_4
       rect:
         serializedVersion: 2
         x: 40
-        y: 73
-        width: 12
-        height: 17
+        y: 56
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 33a0d0766f5857f4587cca699cf81ef9
-      internalID: -1721560762
+      spriteID: b9826ae25bbf80c40b2083f2edfcfdc6
+      internalID: -1899480588
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_4
+      name: corridorTiles_5
       rect:
         serializedVersion: 2
-        x: 53
-        y: 73
-        width: 12
-        height: 17
+        x: 48
+        y: 56
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e2a05e1be13a62f4b98198bea09c6faf
-      internalID: -1413560721
+      spriteID: 96b72bac8b6b24f4795d3440788e6b55
+      internalID: 1854188161
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_5
+      name: tombTiles_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 55
-        width: 12
-        height: 17
+        x: 8
+        y: 40
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 81f30cb408235ea44a4820d317a24b5b
-      internalID: -1436463006
+      spriteID: b81c21a0a81c7a94dac2dfb5222cb54f
+      internalID: 983832926
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_6
+      name: tombTiles_1
       rect:
         serializedVersion: 2
-        x: 14
-        y: 55
-        width: 12
-        height: 17
+        x: 16
+        y: 40
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 58a8f5931482bca40b53cf57145a9601
-      internalID: -486419206
+      spriteID: 75bbdf34e62652f45b2d18d9590d8e12
+      internalID: -1963341327
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_7
+      name: tombTiles_2
       rect:
         serializedVersion: 2
-        x: 27
-        y: 55
-        width: 12
-        height: 17
+        x: 24
+        y: 40
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e7e419e1fd1c369498a92516409363d8
-      internalID: -924690346
+      spriteID: c1a802ed442215c4a808831c1b167293
+      internalID: 226703147
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_8
+      name: tombTiles_3
       rect:
         serializedVersion: 2
-        x: 40
-        y: 55
-        width: 12
-        height: 17
+        x: 32
+        y: 40
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 08a3f4ddbac8c3243bcacfa64d0e06c6
-      internalID: -1590391575
+      spriteID: 9df0cbe64b3cb9942923de8a68e6df8d
+      internalID: -947851355
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_9
-      rect:
-        serializedVersion: 2
-        x: 53
-        y: 55
-        width: 12
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f602b4a5fcb66c343a3c249d081fbcb2
-      internalID: -2134736755
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Items_10
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 37
-        width: 12
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 728cc3811fb4d5a43a413455f9163191
-      internalID: 552863694
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Items_11
-      rect:
-        serializedVersion: 2
-        x: 14
-        y: 37
-        width: 12
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c30b94a97eb712241b136af67c38bbc5
-      internalID: 2009015738
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Items_12
-      rect:
-        serializedVersion: 2
-        x: 27
-        y: 37
-        width: 12
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5bd4969d6bbfc6a499e3935b11cc347f
-      internalID: 2104922220
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Items_13
+      name: tombTiles_4
       rect:
         serializedVersion: 2
         x: 40
-        y: 37
-        width: 12
-        height: 17
+        y: 40
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 91238dcf81aa33e4bba6cc3938aab99c
-      internalID: 5258605
+      spriteID: 5c7b370c1017371408ba42b92cf33247
+      internalID: -1652438078
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_14
+      name: tombTiles_5
       rect:
         serializedVersion: 2
-        x: 53
-        y: 37
-        width: 12
-        height: 17
+        x: 48
+        y: 40
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d124827ecb609f6409dd11a58efb4851
-      internalID: -18154439
+      spriteID: 8c11c6c66b8ef4b43b4679c77f334279
+      internalID: 919051078
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_15
+      name: troveTiles_0
       rect:
         serializedVersion: 2
-        x: 40
-        y: 19
-        width: 12
-        height: 17
+        x: 8
+        y: 24
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a010013590638f64c88b36be1d10285a
-      internalID: 538755537
+      spriteID: ec997b75d4ca2044dac2899c30655e6d
+      internalID: 381263529
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_16
+      name: troveTiles_1
       rect:
         serializedVersion: 2
-        x: 53
-        y: 19
-        width: 12
-        height: 17
+        x: 16
+        y: 24
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2eaf30f9901df454ca2fe68f0ff0cccd
-      internalID: -638123274
+      spriteID: c509c0c040ac78d449a3c684b91ce575
+      internalID: 965965047
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_17
+      name: troveTiles_2
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
-        width: 12
-        height: 17
+        x: 24
+        y: 24
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6b89b1d8db4c85e439873be476611e09
-      internalID: -278732221
+      spriteID: 3a48de7fda680e94e84af260b1d89fa9
+      internalID: -88803609
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_18
+      name: troveTiles_3
       rect:
         serializedVersion: 2
-        x: 14
-        y: 1
-        width: 12
-        height: 17
+        x: 32
+        y: 24
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 64eb4be32ed7b8e4c87ba91bcd8cdd87
-      internalID: 362579436
+      spriteID: cf609e23099540e458650903af3b92d4
+      internalID: 265363311
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_19
-      rect:
-        serializedVersion: 2
-        x: 27
-        y: 1
-        width: 12
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ec634226809cf3b488eacff604e0c5f9
-      internalID: 1667573846
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Items_20
+      name: troveTiles_4
       rect:
         serializedVersion: 2
         x: 40
-        y: 1
-        width: 12
-        height: 17
+        y: 24
+        width: 8
+        height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 28836a2507d6e864e9d188fe2179e315
-      internalID: -1246312354
+      spriteID: abc8a88063a58e74ebc5161fd682291a
+      internalID: -1290723281
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Items_21
+      name: troveTiles_5
       rect:
         serializedVersion: 2
-        x: 53
-        y: 1
-        width: 12
-        height: 17
+        x: 48
+        y: 24
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 014834b48208fa242ba095ab850b4bf3
+      internalID: -1320996998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ExitTiles
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 24
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d32246232fc5dec4aa40dbaf8901c5df
+      internalID: 1686664345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: troveTiles_6
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 8
+        width: 8
+        height: 8
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -552,8 +510,113 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 352ccdf8415258f47aedcf1afb71f036
-      internalID: -1652914593
+      spriteID: 3368d26871df5544882c0fe1042ffd7f
+      internalID: -775356760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: troveTiles_7
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 8
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec4c5520cf794e846be516732f7f050c
+      internalID: -1203761962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: troveTiles_8
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 8
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af46e88927a31dd46be97ae779ea2df5
+      internalID: -583590807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: troveTiles_9
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 8
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aaea37dd6f95c1448917e95dc8d8b6cb
+      internalID: 1996553632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: troveTiles_10
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 8
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 490df68af5835cb4eb8d09655bac936a
+      internalID: -423129704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: troveTiles_11
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 8
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fbaff2ef9a60884a9b2de546e03e519
+      internalID: 228913018
       vertices: []
       indices: 
       edges: []
@@ -569,28 +632,31 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Items_0: 1093031958
-      Items_1: -2137774197
-      Items_10: 552863694
-      Items_11: 2009015738
-      Items_12: 2104922220
-      Items_13: 5258605
-      Items_14: -18154439
-      Items_15: 538755537
-      Items_16: -638123274
-      Items_17: -278732221
-      Items_18: 362579436
-      Items_19: 1667573846
-      Items_2: 368239381
-      Items_20: -1246312354
-      Items_21: -1652914593
-      Items_3: -1721560762
-      Items_4: -1413560721
-      Items_5: -1436463006
-      Items_6: -486419206
-      Items_7: -924690346
-      Items_8: -1590391575
-      Items_9: -2134736755
+      ExitTiles: 1686664345
+      corridorTiles_0: -1002965524
+      corridorTiles_1: -1237296743
+      corridorTiles_2: 877253556
+      corridorTiles_3: 906660963
+      corridorTiles_4: -1899480588
+      corridorTiles_5: 1854188161
+      tombTiles_0: 983832926
+      tombTiles_1: -1963341327
+      tombTiles_2: 226703147
+      tombTiles_3: -947851355
+      tombTiles_4: -1652438078
+      tombTiles_5: 919051078
+      troveTiles_0: 381263529
+      troveTiles_1: 965965047
+      troveTiles_10: -423129704
+      troveTiles_11: 228913018
+      troveTiles_2: -88803609
+      troveTiles_3: 265363311
+      troveTiles_4: -1290723281
+      troveTiles_5: -1320996998
+      troveTiles_6: -775356760
+      troveTiles_7: -1203761962
+      troveTiles_8: -583590807
+      troveTiles_9: 1996553632
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
