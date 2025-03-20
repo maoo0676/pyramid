@@ -30,6 +30,17 @@ public class Active : MonoBehaviour
                         col.SetActive(false);
                         GameManager.Instance.Keymount++;
                         break;
+                    case 1:
+                        col.SetActive(false);
+                        GameManager.Instance.Hp += 2;
+                        break;
+                    case 2:
+                        col.SetActive(false);
+                        GameManager.Instance.curTime -= 3;
+                        break;
+                    default:
+                        col.SetActive(false);
+                        break;
                 }
             }
             else if(col.CompareTag("Doors"))

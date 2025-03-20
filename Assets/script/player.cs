@@ -11,8 +11,8 @@ public class Player : MonoBehaviour
     Animator anim;
     Vector3 movement;
 
-    public int movePower = 1;
-    public float jumpPower = 1;
+    public int Speed;
+    public float jumpPower;
     bool isJumping = false;
     bool isAttack = false;
     bool Freeze = false;
@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
             rend.flipX = false;
         }
 
-        transform.position += moveVelocity * movePower * Time.deltaTime;
+        transform.position += moveVelocity * Speed * Time.deltaTime;
     }
 
     public void Jump()
@@ -150,16 +150,16 @@ public class Player : MonoBehaviour
         {
             Active(true, 0);
         }
-        else if (other.gameObject.CompareTag("Chests"))
-        {
-            Active(true, 0);
-        }
         else if (other.gameObject.CompareTag("Items"))
         {
             Active(true, 0);
         }
+        else if (other.gameObject.name.Equals("Peddler"))
+        {
+            Active(true, 6);
+        }
     }
-    private void OnTriggerExit2D(Collider2D other)
+    void OnTriggerExit2D(Collider2D other)
     {
         Active(false, 0);
     }

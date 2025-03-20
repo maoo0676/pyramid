@@ -17,7 +17,9 @@ public class GameManager : MonoBehaviour
     public float maxTime = 45;
     public float O2level = 1;
 
+    public int mapId;
     public GameObject[] maps;
+    public GameObject InDungeon;
     public int Stage = -1;
     float time = 0;
 
@@ -37,18 +39,21 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        slot.fillAmount = 0.125f * SlotAmount;
-        slider.maxValue = maxTime;
+        StageLoad(mapId);
+        StageLoad(mapId);
     }
 
     // Update is called once per frame
     void Update()
     {
-        HpGauge.fillAmount = 0.125f * Hp;
-
-        if (Hp <= 0||maxTime < curTime)
+        if (Hp <= 0 || maxTime < curTime || mapId == 0)
             return;
 
+        if (Hp > 8) Hp = 8;
+        if (curTime < 0) curTime = 0;
+
+        HpGauge.fillAmount = 0.125f * Hp;
+        slider.value = curTime;
 
         if (HitTime > 0)
         {
@@ -63,7 +68,6 @@ public class GameManager : MonoBehaviour
         if (time >= O2level && maxTime > curTime)
         {
             curTime++;
-            slider.value = curTime;
             time = 0;
         }
         else if (maxTime == curTime)
@@ -136,27 +140,42 @@ public class GameManager : MonoBehaviour
 
     void Slot(int i)
     {
-        switch(SlotId[i])
+        switch(SlotId[i - 1])
         {
-            case 0:
-                break;
             case 1:
+                Hp += 2;
                 break;
             case 2:
+                curTime -= 9;
                 break;
             case 3:
                 break;
             case 4:
+                if(Player.Instance.Speed <= 8)
+                    Player.Instance.Speed = 8;
                 break;
             case 5:
+                Player.Instance.Speed = 10;
                 break;
             case 6:
-                break;
-            case 7:
                 break;
             default:
                 StartCoroutine(P_active(4));
                 break;
+        }
+
+        StartCoroutine(Itemability(SlotId[i - 1]));
+
+        if (1 <= SlotId[i - 1]&&SlotId[i - 1] <= 6)
+        {
+            SlotId[i - 1] = -1;
+
+            for (int j = i; j < SlotAmount && SlotId[j] != -1; j++)
+            {
+                SlotId[j - 1] = SlotId[j];
+                SlotId[j] = -1;
+            }
+
         }
     }
     public IEnumerator P_active(int i)
@@ -165,9 +184,26 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         Player.Instance.Active(false, i);
     }
-    
+    IEnumerator Itemability(int i)
+    {
+        yield return new WaitForSeconds(10f);
+        switch(i)
+        {
+            case 4:
+            case 5:
+                Player.Instance.Speed = 5;
+                break;
+        }
+        Player.Instance.Active(false, i);
+    }
+
     void StageLoad(int i)
     {
         message("i" + i);
+        slot.fillAmount = 0.125f * SlotAmount;
+        slider.maxValue = maxTime;
+
+        if (i == 0) InDungeon.SetActive(false);
+        else InDungeon.SetActive(true);
     }
 }
