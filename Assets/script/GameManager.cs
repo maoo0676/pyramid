@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public float curTime = 0; //* 현재 시간
     public float maxTime = 45;
     public float O2level = 1;
+    public float O2tic = 1;
 
     public int mapId;
     public GameObject[] maps;
@@ -29,8 +30,13 @@ public class GameManager : MonoBehaviour
     public float AttackDelay = 0f;
     public int jumplimt = 0;
     [Header("# Bag Info")]
+    public Image[] itemsimage;
+    public Image[] slotitems;
     public int Gold = 0;
-    public int SlotAmount = 4;
+    public int SlotLimt = 4;
+    public int SlotAmount = 0;
+    public int Weight = 0;
+    public int MaxWeight = 150;
     public int[] SlotId = { -1 };
     public int Keymount = 0;
 
@@ -39,7 +45,8 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        StageLoad(mapId);
+
+
         StageLoad(mapId);
     }
 
@@ -65,7 +72,7 @@ public class GameManager : MonoBehaviour
         }
 
         time += Time.deltaTime;
-        if (time >= O2level && maxTime > curTime)
+        if (time >= O2tic && maxTime > curTime)
         {
             curTime++;
             time = 0;
@@ -78,35 +85,35 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))// 슬롯키--------------------------
         {
-            Slot(1);
+            Slotactive(1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Slot(2);
+            Slotactive(2);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            Slot(3);
+            Slotactive(3);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            Slot(4);
+            Slotactive(4);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.Alpha5) && SlotLimt >= 6)
         {
-            Slot(5);
+            Slotactive(5);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
+        if (Input.GetKeyDown(KeyCode.Alpha6) && SlotLimt >= 6)
         {
-            Slot(6);
+            Slotactive(6);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
+        if (Input.GetKeyDown(KeyCode.Alpha7) && SlotLimt >= 8)
         {
-            Slot(7);
+            Slotactive(7);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha8))
+        if (Input.GetKeyDown(KeyCode.Alpha8) && SlotLimt >= 8)
         {
-            Slot(8);
+            Slotactive(8);
         }// 슬롯키----------------------------------------------------------
 
         if (Input.GetKeyDown(KeyCode.F1))// 치트키--------------------------
@@ -138,7 +145,7 @@ public class GameManager : MonoBehaviour
         Debug.Log(str);
     }
 
-    void Slot(int i)
+    void Slotactive(int i)
     {
         switch(SlotId[i - 1])
         {
@@ -170,12 +177,27 @@ public class GameManager : MonoBehaviour
         {
             SlotId[i - 1] = -1;
 
-            for (int j = i; j < SlotAmount && SlotId[j] != -1; j++)
+            for (int j = i; j < SlotLimt && SlotId[j] != -1; j++)
             {
                 SlotId[j - 1] = SlotId[j];
                 SlotId[j] = -1;
             }
+            SlotAmount--;
 
+            Slotsetting();
+        }
+    }
+
+    public void Slotsetting()
+    {
+        foreach (Transform child in slot.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        for (int j = 0; j < SlotAmount; j++)
+        {
+            slotitems[j] = Instantiate(itemsimage[SlotId[j] - 1], slot.transform.position + new Vector3(-412.8f + j * 120, 0, 0), Quaternion.identity, slot.transform);
+            Debug.Log(slot.transform.position);
         }
     }
     public IEnumerator P_active(int i)
@@ -200,8 +222,23 @@ public class GameManager : MonoBehaviour
     void StageLoad(int i)
     {
         message("i" + i);
-        slot.fillAmount = 0.125f * SlotAmount;
+        slot.fillAmount = 0.125f * SlotLimt;
         slider.maxValue = maxTime;
+
+        switch (mapId)
+        {
+            case 1:
+            case 2:
+                O2tic = 1 * O2level;
+                break;
+            case 3:
+            case 4:
+                O2tic = 1 / 2 * O2level;
+                break;
+            case 5:
+                O2tic = 1 / 4 * O2level;
+                break;
+        }
 
         if (i == 0) InDungeon.SetActive(false);
         else InDungeon.SetActive(true);

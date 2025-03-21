@@ -156,7 +156,11 @@ public class Player : MonoBehaviour
         }
         else if (other.gameObject.name.Equals("Peddler"))
         {
-            Active(true, 6);
+            Active(true, 0);
+        }
+        else if (other.gameObject.name.Equals("exit"))
+        {
+            Active(true, 0);
         }
     }
     void OnTriggerExit2D(Collider2D other)

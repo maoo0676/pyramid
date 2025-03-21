@@ -13002,6 +13002,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 124379317825710321}
     m_Modifications:
+    - target: {fileID: 1063451613889949120, guid: 382ff546ace282840ab292a726d01454, type: 3}
+      propertyPath: weight
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4963921260662570983, guid: 382ff546ace282840ab292a726d01454, type: 3}
       propertyPath: m_Name
       value: O2_charge
@@ -13166,6 +13170,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7425489121280689423, guid: 973658a97da5ff94aa249097ffc0cf4a, type: 3}
+      propertyPath: weight
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7507300469154579048, guid: 973658a97da5ff94aa249097ffc0cf4a, type: 3}
       propertyPath: m_Name
       value: Hp_postion
@@ -13191,6 +13199,10 @@ PrefabInstance:
     - target: {fileID: 783500363839223320, guid: 7bec12116869721429445e52e4640720, type: 3}
       propertyPath: m_Name
       value: Tresure_finder
+      objectReference: {fileID: 0}
+    - target: {fileID: 3749423336910824041, guid: 7bec12116869721429445e52e4640720, type: 3}
+      propertyPath: weight
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5552625525952213809, guid: 7bec12116869721429445e52e4640720, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13290,6 +13302,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6701705138542878084, guid: ce3943a4ca6e03b48b7541314ed4ef57, type: 3}
+      propertyPath: weight
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 7530625345010732218, guid: ce3943a4ca6e03b48b7541314ed4ef57, type: 3}
       propertyPath: m_Name
       value: Ruby
@@ -13312,6 +13328,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 124379317825710321}
     m_Modifications:
+    - target: {fileID: 5161984123269430969, guid: 493e375c711447347bc20bb7c2920b4e, type: 3}
+      propertyPath: weight
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6446338095867396407, guid: 493e375c711447347bc20bb7c2920b4e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.805031
@@ -13480,6 +13500,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9079866716253062737, guid: b5e7cfbd13d550241a543b81ffb2c40c, type: 3}
+      propertyPath: weight
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13542,6 +13566,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7567471419410469138, guid: 9ac3f0714f3482d47ba1f3f819ae18aa, type: 3}
+      propertyPath: weight
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13560,6 +13588,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 124379317825710321}
     m_Modifications:
+    - target: {fileID: 1442047696226186684, guid: c076ae4736d7c0b4588c31d5f33ff18b, type: 3}
+      propertyPath: weight
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 4811227893677776720, guid: c076ae4736d7c0b4588c31d5f33ff18b, type: 3}
       propertyPath: m_Name
       value: Diamond
@@ -13622,6 +13654,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 124379317825710321}
     m_Modifications:
+    - target: {fileID: 1664467297172178942, guid: 6c4606f46d40412448e76a8413e00221, type: 3}
+      propertyPath: weight
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2068378653588582393, guid: 6c4606f46d40412448e76a8413e00221, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.63
@@ -13687,6 +13723,10 @@ PrefabInstance:
     - target: {fileID: 183854453464143408, guid: 4a912477d7936fc4ebd295ecfb9528df, type: 3}
       propertyPath: m_Name
       value: Smoke_grenade
+      objectReference: {fileID: 0}
+    - target: {fileID: 6235252314670236833, guid: 4a912477d7936fc4ebd295ecfb9528df, type: 3}
+      propertyPath: weight
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7289238728942514355, guid: 4a912477d7936fc4ebd295ecfb9528df, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13790,6 +13830,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Volcano_chick
       objectReference: {fileID: 0}
+    - target: {fileID: 8444780017248512087, guid: 75872dd4334b3d34f9552741929cd858, type: 3}
+      propertyPath: weight
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13811,6 +13855,10 @@ PrefabInstance:
     - target: {fileID: 2068792721534305323, guid: 1893b8d1e77014c48aab8f2010c34ee9, type: 3}
       propertyPath: m_Name
       value: Sapphire
+      objectReference: {fileID: 0}
+    - target: {fileID: 2928097620648614541, guid: 1893b8d1e77014c48aab8f2010c34ee9, type: 3}
+      propertyPath: weight
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3042222233279901284, guid: 1893b8d1e77014c48aab8f2010c34ee9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13914,6 +13962,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Amethyst
       objectReference: {fileID: 0}
+    - target: {fileID: 5495490734360835830, guid: 51e814b2ed0b4904cad08138e80bb2fd, type: 3}
+      propertyPath: weight
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13935,10 +13987,6 @@ PrefabInstance:
     - target: {fileID: -4300633990022868306, guid: 248a30dbd93a586409836f7957ef4048, type: 3}
       propertyPath: m_Size.y
       value: 1.4
-      objectReference: {fileID: 0}
-    - target: {fileID: -4300633990022868306, guid: 248a30dbd93a586409836f7957ef4048, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4533280693710998740, guid: 248a30dbd93a586409836f7957ef4048, type: 3}
       propertyPath: m_Name

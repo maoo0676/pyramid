@@ -7,6 +7,7 @@ public class Active : MonoBehaviour
     GameObject player;
     public GameObject col;
     public int Id;
+    public int weight;
 
     public bool isPlayerEnter; // Player가 범위 안에 왔는지를 판별할 bool 타입 변수
 
@@ -30,18 +31,29 @@ public class Active : MonoBehaviour
                         col.SetActive(false);
                         GameManager.Instance.Keymount++;
                         break;
-                    case 1:
-                        col.SetActive(false);
-                        GameManager.Instance.Hp += 2;
-                        break;
-                    case 2:
-                        col.SetActive(false);
-                        GameManager.Instance.curTime -= 3;
-                        break;
                     default:
-                        col.SetActive(false);
-                        break;
+                        if(GameManager.Instance.SlotAmount < GameManager.Instance.SlotLimt)
+                        {
+                            if(GameManager.Instance.Weight + weight > GameManager.Instance.MaxWeight)
+                            {
+                                StartCoroutine(GameManager.Instance.P_active(4));
+                            }
+                            else
+                            {
+                                GameManager.Instance.SlotId[GameManager.Instance.SlotAmount] = Id;
+                                GameManager.Instance.SlotAmount++;
+                                GameManager.Instance.Slotsetting();
+                                col.SetActive(false);
+                            }
+                        }
+                        else
+                        {
+                            StartCoroutine(GameManager.Instance.P_active(4));
+                        }
+                            break;
                 }
+
+                
             }
             else if(col.CompareTag("Doors"))
             {
@@ -49,7 +61,6 @@ public class Active : MonoBehaviour
                     col.SetActive(false);
                 }
                 else {
-                    Player.Instance.Active(true, 2);
                     StartCoroutine(GameManager.Instance.P_active(2));
                 }
             }

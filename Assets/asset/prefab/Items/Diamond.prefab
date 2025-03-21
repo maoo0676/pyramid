@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &783500363839223320
+--- !u!1 &4811227893677776720
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5552625525952213809}
-  - component: {fileID: 6586443016483922948}
-  - component: {fileID: 5823003946325748335}
-  - component: {fileID: 3749423336910824041}
+  - component: {fileID: 6509575387115503386}
+  - component: {fileID: 3375011393200414638}
+  - component: {fileID: 7737319805784413383}
+  - component: {fileID: 1442047696226186684}
   m_Layer: 0
-  m_Name: Tresure_finder
+  m_Name: Diamond
   m_TagString: Items
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5552625525952213809
+--- !u!4 &6509575387115503386
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 783500363839223320}
+  m_GameObject: {fileID: 4811227893677776720}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.1, y: -13.92, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.177144, y: -14.087808, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &6586443016483922948
+--- !u!212 &3375011393200414638
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 783500363839223320}
+  m_GameObject: {fileID: 4811227893677776720}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -74,8 +74,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
-  m_Sprite: {fileID: -1721560762, guid: bac8b27ddceeafe4e863e1a6c2b2ca00, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -18154439, guid: bac8b27ddceeafe4e863e1a6c2b2ca00, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,13 +86,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &5823003946325748335
+--- !u!61 &7737319805784413383
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 783500363839223320}
+  m_GameObject: {fileID: 4811227893677776720}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -131,18 +131,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.4}
   m_EdgeRadius: 0
---- !u!114 &3749423336910824041
+--- !u!114 &1442047696226186684
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 783500363839223320}
+  m_GameObject: {fileID: 4811227893677776720}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b6b969488b2bbe47a8643b963fb9e00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  col: {fileID: 783500363839223320}
-  Id: 3
+  col: {fileID: 4811227893677776720}
+  Id: 13
+  weight: 100
   isPlayerEnter: 0
