@@ -21,7 +21,8 @@ public class GameManager : MonoBehaviour
     public int mapId;
     public GameObject[] maps;
     public GameObject InDungeon;
-    public int Stage = -1;
+    public int Stage = 1;
+    public bool isClear = false;
     float time = 0;
 
     [Header("# Player Info")]
@@ -47,13 +48,13 @@ public class GameManager : MonoBehaviour
         Instance = this;
 
 
-        StageLoad(mapId);
+        StageLoad(Stage);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Hp <= 0 || maxTime < curTime || mapId == 0)
+        if (Hp <= 0 || maxTime < curTime || mapId != 0)
             return;
 
         if (Hp > 8) Hp = 8;
@@ -124,12 +125,18 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            StageLoad(Stage);
+            if (mapId != 0)
+            {
+                StageLoad(0);
+            }
         }
         if (Input.GetKeyDown(KeyCode.F3))
         {
-            if(Stage != 5)
-                StageLoad(Stage + 1);
+            if(Stage != 5&&mapId != 0)
+            {
+                Stage++;
+                StageLoad(0);
+            }
         }
         if (Input.GetKeyDown(KeyCode.F4))
         {
@@ -140,7 +147,7 @@ public class GameManager : MonoBehaviour
             message("f5");
         }// ġƮŰ------------------------------------------------------------
     }
-    void message(string str)
+    public void message(string str)
     {
         Debug.Log(str);
     }
@@ -219,11 +226,23 @@ public class GameManager : MonoBehaviour
         Player.Instance.Active(false, i);
     }
 
-    void StageLoad(int i)
+    public void StageLoad(int i)
     {
-        message("i" + i);
+        message("" + i);
         slot.fillAmount = 0.125f * SlotLimt;
         slider.maxValue = maxTime;
+        if(i == 0)
+        {
+            mapId = Stage;
+        }
+        else if (i != 0)
+        {
+            mapId = 0;
+            if (isClear)
+            {
+                Stage++;
+            }
+        }
 
         switch (mapId)
         {
@@ -239,8 +258,18 @@ public class GameManager : MonoBehaviour
                 O2tic = 1 / 4 * O2level;
                 break;
         }
+        if(i == 0)
+        {
+            maps[0].SetActive(false);
+            maps[Stage].SetActive(true);
+        }
+        else
+        {
+            maps[Stage].SetActive(false);
+            maps[0].SetActive(true);
+        }
 
-        if (i == 0) InDungeon.SetActive(false);
+        if (i != 0) InDungeon.SetActive(false);
         else InDungeon.SetActive(true);
     }
 }

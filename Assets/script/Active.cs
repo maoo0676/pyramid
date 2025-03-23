@@ -53,16 +53,26 @@ public class Active : MonoBehaviour
                             break;
                 }
 
-                
+
             }
-            else if(col.CompareTag("Doors"))
+            else if (col.CompareTag("Doors"))
             {
-                if(GameManager.Instance.Keymount > 0) {
+                if (GameManager.Instance.Keymount > 0)
+                {
                     col.SetActive(false);
                 }
-                else {
+                else
+                {
                     StartCoroutine(GameManager.Instance.P_active(2));
                 }
+            }
+            else if (col.CompareTag("Doorway"))
+            {
+                GameManager.Instance.StageLoad(GameManager.Instance.mapId);
+            }
+            else if (col.name.Equals("Peddler"))
+            {
+                GameManager.Instance.message("Peddler");
             }
             else
             {

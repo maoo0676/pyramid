@@ -6,9 +6,9 @@ TagManager:
   tags:
   - Items
   - Doors
-  - Chests
   - Monster
   - Bullet
+  - Doorway
   layers:
   - Default
   - TransparentFX

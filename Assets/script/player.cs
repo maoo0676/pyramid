@@ -158,7 +158,7 @@ public class Player : MonoBehaviour
         {
             Active(true, 0);
         }
-        else if (other.gameObject.name.Equals("exit"))
+        else if (other.gameObject.name.Equals("doorway"))
         {
             Active(true, 0);
         }
