@@ -102,6 +102,7 @@ MonoBehaviour:
   Id: 0
   weight: 0
   isPlayerEnter: 0
+  isSolved: 0
 --- !u!61 &-4300633990022868306
 BoxCollider2D:
   m_ObjectHideFlags: 0

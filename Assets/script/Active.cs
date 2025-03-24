@@ -10,6 +10,7 @@ public class Active : MonoBehaviour
     public int weight;
 
     public bool isPlayerEnter; // Player가 범위 안에 왔는지를 판별할 bool 타입 변수
+    public bool isSolved;
 
     void Awake()
     {
@@ -20,21 +21,25 @@ public class Active : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.Hp <= 0 || GameManager.Instance.Pause.isOn)
+        {
+            return;
+        }
         // 플레이어가 범위 안에 있고 E 키를 누른다면
         if (isPlayerEnter && Input.GetButtonDown("Trigger"))
         {
-            if(col.CompareTag("Items"))
+            if (col.CompareTag("Items"))
             {
-                switch(Id)
+                switch (Id)
                 {
                     case 0:
                         col.SetActive(false);
                         GameManager.Instance.Keymount++;
                         break;
                     default:
-                        if(GameManager.Instance.SlotAmount < GameManager.Instance.SlotLimt)
+                        if (GameManager.Instance.SlotAmount < GameManager.Instance.SlotLimt)
                         {
-                            if(GameManager.Instance.Weight + weight > GameManager.Instance.MaxWeight)
+                            if (GameManager.Instance.Weight + weight > GameManager.Instance.MaxWeight)
                             {
                                 StartCoroutine(GameManager.Instance.P_active(4));
                             }
@@ -43,6 +48,7 @@ public class Active : MonoBehaviour
                                 GameManager.Instance.SlotId[GameManager.Instance.SlotAmount] = Id;
                                 GameManager.Instance.SlotAmount++;
                                 GameManager.Instance.Slotsetting();
+                                GameManager.Instance.Weight += weight;
                                 col.SetActive(false);
                             }
                         }
@@ -50,7 +56,7 @@ public class Active : MonoBehaviour
                         {
                             StartCoroutine(GameManager.Instance.P_active(4));
                         }
-                            break;
+                        break;
                 }
 
 
@@ -69,10 +75,13 @@ public class Active : MonoBehaviour
             else if (col.CompareTag("Doorway"))
             {
                 GameManager.Instance.StageLoad(GameManager.Instance.mapId);
+                GameManager.Instance.selling(true);
             }
             else if (col.name.Equals("Peddler"))
             {
                 GameManager.Instance.message("Peddler");
+                GameManager.Instance.Pause.isOn = true;
+                GameManager.Instance.Store.SetActive(true);
             }
             else
             {

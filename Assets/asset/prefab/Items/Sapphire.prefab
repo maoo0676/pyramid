@@ -147,3 +147,4 @@ MonoBehaviour:
   Id: 11
   weight: 100
   isPlayerEnter: 0
+  isSolved: 0

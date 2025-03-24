@@ -8,19 +8,24 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [Header("# System Info")]
+    [Header("# Object")]
     public Image slot;
     public Image HpGauge;
     public Slider slider;
+    public GameObject InDungeon;
+    public GameObject Store;
+    public Toggle Pause;
+    public Transform player;
 
+    [Header("# Timer Info")]
     public float curTime = 0; //* 현재 시간
     public float maxTime = 45;
     public float O2level = 1;
     public float O2tic = 1;
 
-    public int mapId;
+    [Header("# Map Info")]
     public GameObject[] maps;
-    public GameObject InDungeon;
+    public int mapId;
     public int Stage = 1;
     public bool isClear = false;
     float time = 0;
@@ -30,6 +35,7 @@ public class GameManager : MonoBehaviour
     public float HitTime = 0.1f;
     public float AttackDelay = 0f;
     public int jumplimt = 0;
+
     [Header("# Bag Info")]
     public Image[] itemsimage;
     public Image[] slotitems;
@@ -48,13 +54,61 @@ public class GameManager : MonoBehaviour
         Instance = this;
 
 
-        StageLoad(Stage);
+        StageLoad(1);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Hp <= 0 || maxTime < curTime || mapId != 0)
+        if (Input.GetKeyDown(KeyCode.F1))// 치트키--------------------------
+        {
+            curTime = 0;
+            slider.value = curTime;
+            Hp = 8;
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            message("F2");
+            if (mapId != 0)
+            {
+                message("F2");
+                StageLoad(0);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            message("F3");
+            if (Stage != 5 && mapId != 0)
+            {
+                message("F3");
+                Stage++;
+                StageLoad(0);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            message("f4");
+        }
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            if(mapId != 0)
+            {
+                Time.timeScale = 0;
+                Pause.isOn = true;
+                Pause.gameObject.SetActive(true);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            Player.Instance.Speed = 10;
+        }// 치트키------------------------------------------------------------
+
+        if(!Pause.isOn) {
+            Time.timeScale = 1;
+            Pause.gameObject.SetActive(false);
+        }
+
+        if (Hp <= 0 || maxTime < curTime || mapId == 0 || !Pause.isOn)
             return;
 
         if (Hp > 8) Hp = 8;
@@ -80,7 +134,7 @@ public class GameManager : MonoBehaviour
         }
         else if (maxTime == curTime)
         {
-            Player.Instance.Dead();
+            StartCoroutine(Player.Instance.Dead());
             curTime++;
             message("dead");
         }
@@ -117,35 +171,6 @@ public class GameManager : MonoBehaviour
             Slotactive(8);
         }// 슬롯키----------------------------------------------------------
 
-        if (Input.GetKeyDown(KeyCode.F1))// 치트키--------------------------
-        {
-            curTime = 0;
-            slider.value = curTime;
-            Hp = 8;
-        }
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            if (mapId != 0)
-            {
-                StageLoad(0);
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.F3))
-        {
-            if(Stage != 5&&mapId != 0)
-            {
-                Stage++;
-                StageLoad(0);
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.F4))
-        {
-            message("f4");
-        }
-        if (Input.GetKeyDown(KeyCode.F5))
-        {
-            message("f5");
-        }// 치트키------------------------------------------------------------
     }
     public void message(string str)
     {
@@ -230,8 +255,9 @@ public class GameManager : MonoBehaviour
     {
         message("" + i);
         slot.fillAmount = 0.125f * SlotLimt;
-        slider.maxValue = maxTime;
-        if(i == 0)
+        curTime = 0;
+        slider.value = curTime;
+        if (i == 0)
         {
             mapId = Stage;
         }
@@ -240,8 +266,26 @@ public class GameManager : MonoBehaviour
             mapId = 0;
             if (isClear)
             {
+                maps[Stage].SetActive(false);
                 Stage++;
             }
+        }
+        switch (mapId)
+        {
+            case 0:
+                player.position = new Vector3(1, -0.5f, 0);
+                break;
+            case 1:
+                player.position = new Vector3(-10.5f, 2.5f, 0);
+                break;
+            case 2:
+                player.position = new Vector3(-12, 16, 0);
+                break;
+            case 3:
+            case 4:
+            case 5:
+                player.position = new Vector3(-8, 16, 0);
+                break;
         }
 
         switch (mapId)
@@ -252,15 +296,18 @@ public class GameManager : MonoBehaviour
                 break;
             case 3:
             case 4:
-                O2tic = 1 / 2 * O2level;
+                O2tic = 1f / 2 * O2level;
                 break;
             case 5:
-                O2tic = 1 / 4 * O2level;
+                O2tic = 1f / 4 * O2level;
                 break;
         }
+
         if(i == 0)
         {
+            message("" + Stage);
             maps[0].SetActive(false);
+            maps[Stage - 1].SetActive(false);
             maps[Stage].SetActive(true);
         }
         else
@@ -271,5 +318,54 @@ public class GameManager : MonoBehaviour
 
         if (i != 0) InDungeon.SetActive(false);
         else InDungeon.SetActive(true);
+    }
+
+    public void selling(bool isLive)
+    {
+        if (isLive)
+        {
+            for(int i = 0; i < SlotAmount; i++)
+            {
+                switch(SlotId[i])
+                {
+                    case 7:
+                        Gold += 100;
+                        break;
+                    case 8:
+                        Gold += 500;
+                        break;
+                    case 9:
+                        Gold += 1000;
+                        break;
+                    case 10:
+                        Gold += 2000;
+                        break;
+                    case 11:
+                        Gold += 3000;
+                        break;
+                    case 12:
+                        Gold += 5000;
+                        break;
+                    case 13:
+                        Gold += 10000;
+                        break;
+                }
+                SlotId[i] = -1;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < SlotAmount; i++)
+            {
+                SlotId[i] = -1;
+            }
+        }
+        Slotsetting();
+    }
+
+    public void closeStore()
+    {
+        GameManager.Instance.Pause.isOn = false;
+        Store.SetActive(false);
     }
 }

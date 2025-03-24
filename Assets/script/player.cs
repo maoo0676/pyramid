@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.Hp <= 0||Freeze)
+        if (GameManager.Instance.Hp <= 0||Freeze||GameManager.Instance.Pause.isOn)
         {
             return;
         }
@@ -129,7 +129,7 @@ public class Player : MonoBehaviour
 
             if (GameManager.Instance.Hp <= 0)
             {
-                Dead();
+                StartCoroutine(Dead());
             }
             else
             {
@@ -176,16 +176,29 @@ public class Player : MonoBehaviour
     IEnumerator Freezecancel(float time)
     {
         yield return new WaitForSeconds(time);
+        rigid.constraints = RigidbodyConstraints2D.None;
+        rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
         Freeze = false;
     }
 
-    public void Dead()
+    public IEnumerator Dead()
     {
         Freeze = true;
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
         anim.SetBool("isDead", true);
+        GameManager.Instance.selling(false);
+        yield return new WaitForSeconds(5f);
+
+        GameManager.Instance.StageLoad(GameManager.Instance.mapId);
+
+        StartCoroutine(Freezecancel(2f));
+        GameManager.Instance.selling(true);
+        yield return new WaitForSeconds(2f);
+        anim.SetBool("isDead", false);
+        gameObject.GetComponent<BoxCollider2D>().enabled = true;
+        gameObject.GetComponent<CapsuleCollider2D>().enabled = true;
     }
 
     IEnumerator delete(float time, int i)
