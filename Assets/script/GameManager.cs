@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
@@ -35,6 +36,8 @@ public class GameManager : MonoBehaviour
     public float HitTime = 0.1f;
     public float AttackDelay = 0f;
     public int jumplimt = 0;
+    public GameObject[] Dark;
+    public int Sight = 0;
 
     [Header("# Bag Info")]
     public Image[] itemsimage;
@@ -54,7 +57,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
 
 
-        StageLoad(1);
+        StageLoad(mapId);
     }
 
     // Update is called once per frame
@@ -101,14 +104,18 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F6))
         {
             Player.Instance.Speed = 10;
+        }
+        if (Input.GetKeyDown(KeyCode.F7))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }// Ä¡Æ®Å°------------------------------------------------------------
 
-        if(!Pause.isOn) {
+        if (!Pause.isOn) {
             Time.timeScale = 1;
             Pause.gameObject.SetActive(false);
         }
 
-        if (Hp <= 0 || maxTime < curTime || mapId == 0 || !Pause.isOn)
+        if (Hp <= 0 || maxTime < curTime || mapId == 0 || Pause.isOn)
             return;
 
         if (Hp > 8) Hp = 8;
@@ -172,12 +179,19 @@ public class GameManager : MonoBehaviour
         }// ½½·ÔÅ°----------------------------------------------------------
 
     }
+    public IEnumerator P_active(int i)
+    {
+        Player.Instance.Active(true, i);
+        yield return new WaitForSeconds(2f);
+        Player.Instance.Active(false, i);
+    }
+
     public void message(string str)
     {
         Debug.Log(str);
     }
 
-    void Slotactive(int i)
+    void Slotactive(int i) //-------------------------------------½½·Ô
     {
         switch(SlotId[i - 1])
         {
@@ -232,12 +246,6 @@ public class GameManager : MonoBehaviour
             Debug.Log(slot.transform.position);
         }
     }
-    public IEnumerator P_active(int i)
-    {
-        Player.Instance.Active(true, i);
-        yield return new WaitForSeconds(2f);
-        Player.Instance.Active(false, i);
-    }
     IEnumerator Itemability(int i)
     {
         yield return new WaitForSeconds(10f);
@@ -251,7 +259,7 @@ public class GameManager : MonoBehaviour
         Player.Instance.Active(false, i);
     }
 
-    public void StageLoad(int i)
+    public void StageLoad(int i)//-------------------------------------¸Ê
     {
         message("" + i);
         slot.fillAmount = 0.125f * SlotLimt;
@@ -318,6 +326,8 @@ public class GameManager : MonoBehaviour
 
         if (i != 0) InDungeon.SetActive(false);
         else InDungeon.SetActive(true);
+
+        isClear = false;
     }
 
     public void selling(bool isLive)
@@ -363,9 +373,55 @@ public class GameManager : MonoBehaviour
         Slotsetting();
     }
 
-    public void closeStore()
+    public void closeStore()//-------------------------------------»óÁ¡
     {
         GameManager.Instance.Pause.isOn = false;
         Store.SetActive(false);
+    }
+
+    public void O2GasUpgrade()
+    {
+        if (O2level == 1)
+        {
+            O2level++;
+            GameObject.Find("O2Gas_0").SetActive(false);
+        }
+        else if (O2level == 2)
+        {
+            O2level++;
+            GameObject.Find("O2Gas_1").SetActive(false);
+        }
+        else if (O2level == 3)
+        {
+            O2level++;
+            GameObject.Find("O2Gas_2").SetActive(false);
+        }
+    }
+    public void BagUpgrade()
+    {
+        if (SlotLimt == 4)
+        {
+            SlotLimt += 2;
+            GameObject.Find("Bag_0").SetActive(false);
+        }
+        else if (SlotLimt == 6)
+        {
+            SlotLimt += 2;
+            GameObject.Find("Bag_1").SetActive(false);
+        }
+    }
+    public void LightUpgrade()
+    {
+        if (Sight == 0)
+        {
+            Sight++;
+            GameObject.Find("Light_0").SetActive(false);
+            Dark[0].SetActive(false);
+        }
+        else if (Sight == 1)
+        {
+            GameObject.Find("Light_1").SetActive(false);
+            Dark[1].SetActive(false);
+        }
     }
 }
