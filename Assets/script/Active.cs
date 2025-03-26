@@ -79,7 +79,7 @@ public class Active : MonoBehaviour
             }
             else if (col.name.Equals("Peddler"))
             {
-                GameManager.Instance.message("Peddler");
+                Debug.Log("Peddler");
                 GameManager.Instance.Pause.isOn = true;
                 GameManager.Instance.Store.SetActive(true);
             }

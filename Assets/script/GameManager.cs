@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -8,6 +9,13 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    [Header("# System Info")]
+    public int Gold = 0;
+    public int Score = 0;
+    public Text GoldText;
+    public Text ScoreText;
+    public bool isClear = false;
 
     [Header("# Object")]
     public Image slot;
@@ -19,6 +27,7 @@ public class GameManager : MonoBehaviour
     public Transform player;
 
     [Header("# Timer Info")]
+    float time = 0;
     public float curTime = 0; //* ÇöÀç ½Ã°£
     public float maxTime = 45;
     public float O2level = 1;
@@ -28,8 +37,6 @@ public class GameManager : MonoBehaviour
     public GameObject[] maps;
     public int mapId;
     public int Stage = 1;
-    public bool isClear = false;
-    float time = 0;
 
     [Header("# Player Info")]
     public int Hp = 8;
@@ -42,7 +49,6 @@ public class GameManager : MonoBehaviour
     [Header("# Bag Info")]
     public Image[] itemsimage;
     public Image[] slotitems;
-    public int Gold = 0;
     public int SlotLimt = 4;
     public int SlotAmount = 0;
     public int Weight = 0;
@@ -63,6 +69,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GoldText.text = Gold.ToString();
+        ScoreText.text = Score.ToString();
+
         if (Input.GetKeyDown(KeyCode.F1))// Ä¡Æ®Å°--------------------------
         {
             curTime = 0;
@@ -71,26 +80,26 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            message("F2");
+            Debug.Log("F2");
             if (mapId != 0)
             {
-                message("F2");
+                Debug.Log("F2");
                 StageLoad(0);
             }
         }
         if (Input.GetKeyDown(KeyCode.F3))
         {
-            message("F3");
+            Debug.Log("F3");
             if (Stage != 5 && mapId != 0)
             {
-                message("F3");
+                Debug.Log("F3");
                 Stage++;
                 StageLoad(0);
             }
         }
         if (Input.GetKeyDown(KeyCode.F4))
         {
-            message("f4");
+            Debug.Log("f4");
         }
         if (Input.GetKeyDown(KeyCode.F5))
         {
@@ -143,7 +152,7 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(Player.Instance.Dead());
             curTime++;
-            message("dead");
+            Debug.Log("dead");
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))// ½½·ÔÅ°--------------------------
         {
@@ -184,11 +193,6 @@ public class GameManager : MonoBehaviour
         Player.Instance.Active(true, i);
         yield return new WaitForSeconds(2f);
         Player.Instance.Active(false, i);
-    }
-
-    public void message(string str)
-    {
-        Debug.Log(str);
     }
 
     void Slotactive(int i) //-------------------------------------½½·Ô
@@ -261,10 +265,11 @@ public class GameManager : MonoBehaviour
 
     public void StageLoad(int i)//-------------------------------------¸Ê
     {
-        message("" + i);
         slot.fillAmount = 0.125f * SlotLimt;
         curTime = 0;
         slider.value = curTime;
+        Weight = 0;
+
         if (i == 0)
         {
             mapId = Stage;
@@ -276,8 +281,12 @@ public class GameManager : MonoBehaviour
             {
                 maps[Stage].SetActive(false);
                 Stage++;
+                Score += Gold;
             }
         }
+
+        Debug.Log("" + mapId);
+
         switch (mapId)
         {
             case 0:
@@ -313,7 +322,6 @@ public class GameManager : MonoBehaviour
 
         if(i == 0)
         {
-            message("" + Stage);
             maps[0].SetActive(false);
             maps[Stage - 1].SetActive(false);
             maps[Stage].SetActive(true);
@@ -334,34 +342,38 @@ public class GameManager : MonoBehaviour
     {
         if (isLive)
         {
+            int j = 0;
             for(int i = 0; i < SlotAmount; i++)
             {
                 switch(SlotId[i])
                 {
                     case 7:
-                        Gold += 100;
+                        j += 100;
                         break;
                     case 8:
-                        Gold += 500;
+                        j += 500;
                         break;
                     case 9:
-                        Gold += 1000;
+                        j += 1000;
                         break;
                     case 10:
-                        Gold += 2000;
+                        j += 2000;
                         break;
                     case 11:
-                        Gold += 3000;
+                        j += 3000;
                         break;
                     case 12:
-                        Gold += 5000;
+                        j += 5000;
                         break;
                     case 13:
-                        Gold += 10000;
+                        j += 10000;
                         break;
                 }
                 SlotId[i] = -1;
             }
+
+            Gold += j;
+            Score += j;
         }
         else
         {
@@ -370,12 +382,13 @@ public class GameManager : MonoBehaviour
                 SlotId[i] = -1;
             }
         }
+        SlotAmount = 0;
         Slotsetting();
     }
 
     public void closeStore()//-------------------------------------»óÁ¡
     {
-        GameManager.Instance.Pause.isOn = false;
+        Pause.isOn = false;
         Store.SetActive(false);
     }
 
@@ -383,16 +396,19 @@ public class GameManager : MonoBehaviour
     {
         if (O2level == 1)
         {
+            if(Gold - 500 < 0) return;
             O2level++;
             GameObject.Find("O2Gas_0").SetActive(false);
         }
         else if (O2level == 2)
         {
+            if (Gold - 1000 < 0) return;
             O2level++;
             GameObject.Find("O2Gas_1").SetActive(false);
         }
         else if (O2level == 3)
         {
+            if (Gold - 3000 < 0) return;
             O2level++;
             GameObject.Find("O2Gas_2").SetActive(false);
         }
@@ -401,12 +417,16 @@ public class GameManager : MonoBehaviour
     {
         if (SlotLimt == 4)
         {
+            if (Gold - 1000 < 0) return;
             SlotLimt += 2;
+            MaxWeight = 250;
             GameObject.Find("Bag_0").SetActive(false);
         }
         else if (SlotLimt == 6)
         {
+            if (Gold - 5000 < 0) return;
             SlotLimt += 2;
+            MaxWeight = 400;
             GameObject.Find("Bag_1").SetActive(false);
         }
     }
@@ -414,12 +434,14 @@ public class GameManager : MonoBehaviour
     {
         if (Sight == 0)
         {
+            if (Gold - 1000 < 0) return;
             Sight++;
             GameObject.Find("Light_0").SetActive(false);
             Dark[0].SetActive(false);
         }
         else if (Sight == 1)
         {
+            if (Gold - 2000 < 0) return;
             GameObject.Find("Light_1").SetActive(false);
             Dark[1].SetActive(false);
         }

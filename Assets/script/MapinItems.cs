@@ -10,21 +10,15 @@ public class Map : MonoBehaviour
     public bool[] isGotten;
     public bool[] get;
 
-    bool startsetting = true;
     public bool isClear = false;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
-        if (startsetting) Startroutine();
+        if (GameManager.Instance.curTime == 0) Startroutine();
         if (GameManager.Instance.Hp <= 0) Loss();
-        if (isClear)
+        if (isClear && !GameManager.Instance.isClear)
         {
+            Debug.Log("isClear");
             GameManager.Instance.isClear = true;
             return;
         }
@@ -43,7 +37,6 @@ public class Map : MonoBehaviour
     }
     void Startroutine()
     {
-        startsetting = false;
         for (int i = 0; i < Jem.Length; i++)
         {
             get[i] = false;
@@ -51,13 +44,21 @@ public class Map : MonoBehaviour
 
         foreach (Transform child in items.transform)
         {
+            Debug.Log(child.gameObject.name);
             child.gameObject.SetActive(true);
+        }
+
+        for (int i = 0; i < Jem.Length; i++)
+        {
+            if(isGotten[i]) Jem[i].SetActive(false);
         }
     }
     void Loss()
     {
+        Debug.Log("loss");
         isClear = false;
-        for(int i = 0;i < Jem.Length;i++)
+        GameManager.Instance.isClear = false;
+        for (int i = 0;i < Jem.Length;i++)
         {
             if (get[i])
             {
