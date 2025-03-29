@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Map : MonoBehaviour
@@ -14,12 +15,13 @@ public class Map : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.curTime == 0) Startroutine();
+        if (GameManager.Instance.isMapStart) Startroutine();
         if (GameManager.Instance.Hp <= 0) Loss();
         if (isClear && !GameManager.Instance.isClear)
         {
             Debug.Log("isClear");
             GameManager.Instance.isClear = true;
+            GameManager.Instance.StageText.transform.GetChild(1).gameObject.SetActive(true);
             return;
         }
 
@@ -37,6 +39,8 @@ public class Map : MonoBehaviour
     }
     void Startroutine()
     {
+        GameManager.Instance.isMapStart = false;
+
         for (int i = 0; i < Jem.Length; i++)
         {
             get[i] = false;
@@ -44,13 +48,18 @@ public class Map : MonoBehaviour
 
         foreach (Transform child in items.transform)
         {
+            if (child.gameObject.name.Equals("Key")) continue;
+
             Debug.Log(child.gameObject.name);
             child.gameObject.SetActive(true);
         }
 
         for (int i = 0; i < Jem.Length; i++)
         {
-            if(isGotten[i]) Jem[i].SetActive(false);
+            if (!isGotten[i]) return;
+
+            Debug.Log("-" + Jem[i].gameObject.name);
+            Jem[i].SetActive(false);
         }
     }
     void Loss()

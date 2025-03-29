@@ -21,10 +21,8 @@ public class Active : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.Hp <= 0 || GameManager.Instance.Pause.isOn)
-        {
-            return;
-        }
+        if (GameManager.Instance.Hp <= 0 || GameManager.Instance.Pause.isOn) return;
+
         // 플레이어가 범위 안에 있고 E 키를 누른다면
         if (isPlayerEnter && Input.GetButtonDown("Trigger"))
         {
@@ -65,6 +63,7 @@ public class Active : MonoBehaviour
             {
                 if (GameManager.Instance.Keymount > 0)
                 {
+                    GameManager.Instance.Keymount--;
                     col.SetActive(false);
                 }
                 else
@@ -74,14 +73,15 @@ public class Active : MonoBehaviour
             }
             else if (col.CompareTag("Doorway"))
             {
-                GameManager.Instance.StageLoad(GameManager.Instance.mapId);
                 GameManager.Instance.selling(true);
+                GameManager.Instance.StageLoad(GameManager.Instance.mapId);
             }
             else if (col.name.Equals("Peddler"))
             {
                 Debug.Log("Peddler");
                 GameManager.Instance.Pause.isOn = true;
                 GameManager.Instance.Store.SetActive(true);
+                GameManager.Instance.StageText.SetActive(false);
             }
             else
             {

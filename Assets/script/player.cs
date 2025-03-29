@@ -194,7 +194,6 @@ public class Player : MonoBehaviour
         GameManager.Instance.StageLoad(GameManager.Instance.mapId);
 
         StartCoroutine(Freezecancel(2f));
-        GameManager.Instance.selling(true);
         yield return new WaitForSeconds(2f);
         anim.SetBool("isDead", false);
         gameObject.GetComponent<BoxCollider2D>().enabled = true;
