@@ -13,10 +13,14 @@ public class Map : MonoBehaviour
 
     public bool isClear = false;
 
+    int findertarget;
+
     void Update()
     {
         if (GameManager.Instance.isMapStart) Startroutine();
         if (GameManager.Instance.Hp <= 0) Loss();
+        if (GameManager.Instance.FoundTresure == null || Jem[findertarget].activeSelf) GameManager.Instance.InDungeon.transform.GetChild(6).gameObject.SetActive(false);
+
         if (isClear && !GameManager.Instance.isClear)
         {
             Debug.Log("isClear");
@@ -56,7 +60,13 @@ public class Map : MonoBehaviour
 
         for (int i = 0; i < Jem.Length; i++)
         {
-            if (!isGotten[i]) return;
+            if (!isGotten[i])
+            {
+                Debug.Log("target : " + Jem[i].gameObject.name);
+                findertarget = i;
+                if (GameManager.Instance.FoundTresure == null) GameManager.Instance.FoundTresure = Jem[i].gameObject;
+                return;
+            }
 
             Debug.Log("-" + Jem[i].gameObject.name);
             Jem[i].SetActive(false);

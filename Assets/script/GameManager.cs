@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public int mapId;
     public int Stage = 1;
     public bool isMapStart = false;
+    public GameObject FoundTresure = null;
 
     [Header("# Player Info")]
     public int Hp = 8;
@@ -271,6 +272,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(10f);
         switch(i)
         {
+            case 3:
+                break;
             case 4:
             case 5:
                 Player.Instance.Speed = 5;
@@ -284,6 +287,7 @@ public class GameManager : MonoBehaviour
         slot.fillAmount = 0.125f * SlotLimt;
         curTime = 45;
         Weight = 0;
+        FoundTresure = null;
 
         if (i == 0)
         {
