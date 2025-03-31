@@ -18,8 +18,13 @@ public class Map : MonoBehaviour
     void Update()
     {
         if (GameManager.Instance.isMapStart) Startroutine();
-        if (GameManager.Instance.Hp <= 0) Loss();
-        if (GameManager.Instance.FoundTresure == null || Jem[findertarget].activeSelf) GameManager.Instance.InDungeon.transform.GetChild(6).gameObject.SetActive(false);
+        if (GameManager.Instance.Hp <= 0 || 0 == GameManager.Instance.curTime) Loss();
+        if (findertarget != -1 && (GameManager.Instance.FoundTresure == null || !Jem[findertarget].activeSelf))
+        {
+            Debug.Log("isClear");
+            GameManager.Instance.waveCenter.gameObject.SetActive(false);
+            FoundTresure();
+        }
 
         if (isClear && !GameManager.Instance.isClear)
         {
@@ -44,6 +49,7 @@ public class Map : MonoBehaviour
     void Startroutine()
     {
         GameManager.Instance.isMapStart = false;
+        FoundTresure();
 
         for (int i = 0; i < Jem.Length; i++)
         {
@@ -62,10 +68,7 @@ public class Map : MonoBehaviour
         {
             if (!isGotten[i])
             {
-                Debug.Log("target : " + Jem[i].gameObject.name);
-                findertarget = i;
-                if (GameManager.Instance.FoundTresure == null) GameManager.Instance.FoundTresure = Jem[i].gameObject;
-                return;
+                continue;
             }
 
             Debug.Log("-" + Jem[i].gameObject.name);
@@ -83,6 +86,22 @@ public class Map : MonoBehaviour
             {
                 get[i] = false;
                 isGotten[i] = false;
+            }
+        }
+    }
+    void FoundTresure()
+    {
+        findertarget = -1;
+        GameManager.Instance.FoundTresure = null;
+
+        for (int i = 0; i < Jem.Length; i++)
+        {
+            if (!isGotten[i])
+            {
+                Debug.Log("target : " + Jem[i].gameObject.name);
+                findertarget = i;
+                GameManager.Instance.FoundTresure = Jem[i].gameObject;
+                return;
             }
         }
     }

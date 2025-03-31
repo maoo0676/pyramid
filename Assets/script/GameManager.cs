@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -9,6 +10,12 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    [Header("# UI")]
+    public GameObject InDungeon;
+    public GameObject Store;
+    public GameObject Result;
+    public GameObject[] text = new GameObject[5];
 
     [Header("# System Info")]
     public int Gold = 0;
@@ -23,8 +30,6 @@ public class GameManager : MonoBehaviour
     public Image slot;
     public Image HpGauge;
     public Image O2Gauge;
-    public GameObject InDungeon;
-    public GameObject Store;
     public Toggle Pause;
     public Transform player;
 
@@ -39,6 +44,8 @@ public class GameManager : MonoBehaviour
     public int Stage = 1;
     public bool isMapStart = false;
     public GameObject FoundTresure = null;
+    public Image wave;
+    public GameObject waveCenter;
 
     [Header("# Player Info")]
     public int Hp = 8;
@@ -46,6 +53,7 @@ public class GameManager : MonoBehaviour
     public float AttackDelay = 0f;
     public int jumplimt = 0;
     public GameObject[] Dark;
+    public bool hiding = false;
 
     [Header("# Bag Info")]
     public Image[] itemsimage;
@@ -71,8 +79,11 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
 
+        waveCenter = InDungeon.transform.GetChild(5).gameObject;
 
         StageLoad(mapId);
+
+        DataManager.Instance.StartGame();
     }
 
     // Update is called once per frame
@@ -132,7 +143,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F7))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            GameResult();
         }// 치트키------------------------------------------------------------
 
         if (!Pause.isOn) {
@@ -171,6 +182,20 @@ public class GameManager : MonoBehaviour
             Debug.Log("dead");
         }
 
+        if (waveCenter.gameObject.activeSelf)
+        {
+            float distance = Vector2.Distance(player.position, FoundTresure.transform.position);
+            Debug.Log($"{distance}");
+
+            if (distance < 3) wave.fillAmount = 0;
+            else if (distance < 7) wave.fillAmount = 1;
+            else if (distance < 11) wave.fillAmount = 0.077f * 9;
+            else if (distance < 15) wave.fillAmount = 0.077f * 5;
+            else wave.fillAmount = 0.077f * 2;
+
+            waveCenter.transform.rotation = Quaternion.FromToRotation(Vector3.up, FoundTresure.transform.position - player.position);
+        }
+
         if (Input.GetKeyDown(KeyCode.Alpha1))// 슬롯키--------------------------
         {
             Slotactive(1);
@@ -205,6 +230,17 @@ public class GameManager : MonoBehaviour
         }// 슬롯키----------------------------------------------------------
 
     }
+
+    public void ResetGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    public void GameResult()
+    {
+        DataManager.Instance.EndGame();
+        Result.SetActive(true);
+    }
+
     public IEnumerator P_active(int i)
     {
         Player.Instance.Active(true, i);
@@ -214,6 +250,7 @@ public class GameManager : MonoBehaviour
 
     void Slotactive(int i) //-------------------------------------슬롯
     {
+        Weight -= 10;
         switch(SlotId[i - 1])
         {
             case 1:
@@ -223,6 +260,11 @@ public class GameManager : MonoBehaviour
                 curTime += 9;
                 break;
             case 3:
+                if(FoundTresure == null) StartCoroutine(P_active(4));
+
+                else waveCenter.gameObject.SetActive(true);
+
+                Debug.Log("pathfinder");
                 break;
             case 4:
                 if(Player.Instance.Speed <= 8)
@@ -234,6 +276,7 @@ public class GameManager : MonoBehaviour
             case 6:
                 break;
             default:
+                Weight += 10;
                 StartCoroutine(P_active(4));
                 break;
         }
@@ -299,6 +342,10 @@ public class GameManager : MonoBehaviour
             mapId = 0;
             if (isClear)
             {
+                if (Stage == 5)
+                {
+                    GameResult();
+                }
                 maps[Stage].SetActive(false);
                 Stage++;
                 Score += Gold;
@@ -449,7 +496,7 @@ public class GameManager : MonoBehaviour
             case 2:
                 SlotLimt += 2;
                 MaxWeight = 250;
-                SText[1].transform.GetChild(0).GetComponent<Text>().text = SPrice[3 + BagLevel].ToString() + "G";
+                SText[1].transform.GetChild(0).GetComponent<Text>().text = SPrice[2 + BagLevel].ToString() + "G";
                 SText[1].transform.GetChild(1).GetComponent<Text>().text = "초대형 가방";
                 GameObject.Find("Bag_Sell_0").SetActive(false);
                 break;
@@ -462,7 +509,7 @@ public class GameManager : MonoBehaviour
     }
     public void LightUpgrade()
     {
-        if (Gold - SPrice[4 + LightLevel] < 0) return;
+        if (Gold - SPrice[5 + LightLevel] < 0) return;
 
         LightLevel++;
 
