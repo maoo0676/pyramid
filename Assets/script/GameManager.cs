@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public GameObject InDungeon;
     public GameObject Store;
     public GameObject Result;
+    public GameObject Tutorial;
     public GameObject[] text = new GameObject[5];
 
     [Header("# System Info")]
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
     public int mapId;
     public int Stage = 1;
     public bool isMapStart = false;
+    public bool Reset = false;
     public GameObject FoundTresure = null;
     public Image wave;
     public GameObject waveCenter;
@@ -79,8 +81,6 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
 
-        waveCenter = InDungeon.transform.GetChild(5).gameObject;
-
         StageLoad(mapId);
 
         DataManager.Instance.StartGame();
@@ -92,6 +92,9 @@ public class GameManager : MonoBehaviour
         GoldText.text = Gold.ToString();
         KeyText.text = Keymount.ToString();
         ScoreText.text = Score.ToString();
+
+        HpGauge.fillAmount = 0.125f * Hp;
+        O2Gauge.fillAmount = 0.022222f * curTime;
 
         if (Input.GetKeyDown(KeyCode.F1))// 치트키--------------------------
         {
@@ -115,6 +118,8 @@ public class GameManager : MonoBehaviour
             if (mapId != 0)
             {
                 Debug.Log("reset");
+                Reset = true;
+                selling(false);
                 StageLoad(0);
             }
         }
@@ -125,6 +130,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("F4");
                 Stage++;
                 StageLoad(0);
+                selling(false);
             }
             else Debug.Log("is none");
         }
@@ -156,9 +162,6 @@ public class GameManager : MonoBehaviour
 
         if (Hp > 8) Hp = 8;
         if (curTime > 45) curTime = 45;
-
-        HpGauge.fillAmount = 0.125f * Hp;
-        O2Gauge.fillAmount = 0.022222f * curTime;
 
         if (HitTime > 0)
         {
@@ -329,8 +332,10 @@ public class GameManager : MonoBehaviour
     {
         slot.fillAmount = 0.125f * SlotLimt;
         curTime = 45;
+        Hp = 8;
         Weight = 0;
         FoundTresure = null;
+        StageText.transform.GetChild(0).GetComponent<Text>().text = Stage.ToString();
 
         if (i == 0)
         {
@@ -340,19 +345,15 @@ public class GameManager : MonoBehaviour
         else if (i != 0)
         {
             mapId = 0;
+            maps[Stage].SetActive(false);
+
             if (isClear)
             {
-                if (Stage == 5)
-                {
-                    GameResult();
-                }
-                maps[Stage].SetActive(false);
                 Stage++;
                 Score += Gold;
             }
         }
 
-        StageText.transform.GetChild(0).GetComponent<Text>().text = Stage.ToString();
 
         Debug.Log("" + mapId);
 
@@ -397,8 +398,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            maps[Stage].SetActive(false);
             maps[0].SetActive(true);
+            if (Stage == 6) GameResult();
         }
 
         if (mapId == 0) InDungeon.SetActive(false);
@@ -455,6 +456,12 @@ public class GameManager : MonoBehaviour
         Slotsetting();
     }
 
+    public void closetutorial()//-------------------------------------상점
+    {
+        Pause.isOn = false;
+        Tutorial.SetActive(false);
+        StageText.SetActive(true);
+    }
     public void closeStore()//-------------------------------------상점
     {
         Pause.isOn = false;

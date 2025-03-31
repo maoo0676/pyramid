@@ -66,10 +66,9 @@ public class Map : MonoBehaviour
 
         for (int i = 0; i < Jem.Length; i++)
         {
-            if (!isGotten[i])
-            {
-                continue;
-            }
+            if (GameManager.Instance.Reset) isGotten[i] = false;
+
+            if (!isGotten[i]) continue;
 
             Debug.Log("-" + Jem[i].gameObject.name);
             Jem[i].SetActive(false);

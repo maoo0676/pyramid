@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Fly : MonoBehaviour
 {
     public int speed;
     public Rigidbody2D Target;
+    Vector2 start;
 
     bool isLive = true;
     public bool isHit = false;
@@ -22,6 +24,8 @@ public class Fly : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         rend = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+
+        start = this.transform.position;
     }
 
     private void Update()

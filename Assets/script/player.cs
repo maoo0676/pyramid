@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -122,7 +123,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Monster")&&GameManager.Instance.HitTime <= 0)
+        if (other.gameObject.CompareTag("Monster")&&GameManager.Instance.HitTime <= 0&&GameManager.Instance.Hp > 0)
         {
             GameManager.Instance.Hp--;
             Freeze = true;
@@ -144,33 +145,48 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Doors"))
+        if (other.gameObject.name.Equals("return")) return;
+
+        if (other.gameObject.name.Equals("hidden"))
         {
-            Active(true, 0);
+            Color color = other.gameObject.GetComponent<Tilemap>().color;
+            color.a = 0.7f;
+            other.gameObject.GetComponent<Tilemap>().color = color;
         }
-        else if (other.gameObject.CompareTag("Items"))
+        else if (other.gameObject.name.Equals("lava"))
         {
-            Active(true, 0);
+            GameManager.Instance.Hp--;
+
+            if (GameManager.Instance.Hp <= 0)
+            {
+                StartCoroutine(Dead());
+            }
+            else
+            {
+                GameManager.Instance.jumplimt = 0;
+                isJumping = true;
+                Jump();
+                GameManager.Instance.HitTime = 1f;
+            }
         }
-        else if (other.gameObject.name.Equals("Peddler"))
-        {
-            Active(true, 0);
-        }
-        else if (other.gameObject.name.Equals("doorway"))
-        {
-            Active(true, 0);
-        }
+        else Active(true, 0);
     }
+
     void OnTriggerExit2D(Collider2D other)
     {
-        Active(false, 0);
+        if (other.gameObject.name.Equals("hidden"))
+        {
+            other.gameObject.GetComponent<Tilemap>().color = Color.white;
+        }
+        else Active(false, 0);
     }
 
     public void Active(bool turning, int i)
     {
         Speech[i].SetActive(turning);
+        Debug.Log($"{i} {turning}");
     }
 
     IEnumerator Freezecancel(float time)
