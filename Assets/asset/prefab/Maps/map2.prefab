@@ -2363,7 +2363,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6b969488b2bbe47a8643b963fb9e00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  col: {fileID: 2472052050413372584}
   Id: 0
   weight: 0
   isPlayerEnter: 0
