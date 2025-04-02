@@ -3,7 +3,11 @@ guid: 4f6dcb3bc012f9c439961cd00a621636
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
+<<<<<<< HEAD
   serializedVersion: 11
+=======
+  serializedVersion: 13
+>>>>>>> parent of 07df196 (0401)
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,10 +24,18 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+<<<<<<< HEAD
+=======
+    flipGreenChannel: 0
+>>>>>>> parent of 07df196 (0401)
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+<<<<<<< HEAD
+=======
+  ignoreMipmapLimit: 0
+>>>>>>> parent of 07df196 (0401)
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -62,6 +74,11 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+<<<<<<< HEAD
+=======
+  swizzle: 50462976
+  cookieLightType: 1
+>>>>>>> parent of 07df196 (0401)
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -73,6 +90,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+<<<<<<< HEAD
+=======
+    ignorePlatformSupport: 0
+>>>>>>> parent of 07df196 (0401)
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -85,6 +106,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+<<<<<<< HEAD
+=======
+    ignorePlatformSupport: 0
+>>>>>>> parent of 07df196 (0401)
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -97,6 +122,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+<<<<<<< HEAD
+=======
+    ignorePlatformSupport: 0
+>>>>>>> parent of 07df196 (0401)
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -112,9 +141,15 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+<<<<<<< HEAD
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
+=======
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+>>>>>>> parent of 07df196 (0401)
   userData: 
   assetBundleName: 
   assetBundleVariant: 

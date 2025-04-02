@@ -5,7 +5,7 @@ using UnityEngine;
 public class Active : MonoBehaviour
 {
     GameObject player;
-    GameObject col;
+    public GameObject col;
     public int Id;
     public int weight;
 
@@ -16,7 +16,6 @@ public class Active : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
-        col = this.gameObject;
         isPlayerEnter = false;
     }
 
@@ -82,13 +81,6 @@ public class Active : MonoBehaviour
                 Debug.Log("Peddler");
                 GameManager.Instance.Pause.isOn = true;
                 GameManager.Instance.Store.SetActive(true);
-                GameManager.Instance.StageText.SetActive(false);
-            }
-            else if (col.name.Equals("tutorial"))
-            {
-                Debug.Log("Peddler");
-                GameManager.Instance.Pause.isOn = true;
-                GameManager.Instance.Tutorial.SetActive(true);
                 GameManager.Instance.StageText.SetActive(false);
             }
             else

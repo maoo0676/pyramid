@@ -49,6 +49,10 @@ public class DataManager : MonoBehaviour
     // 저장하기
     public void EndGame()
     {
+        // 클래스를 Json 형식으로 전환 (true : 가독성 좋게 작성)
+        string ToJsonData = JsonUtility.ToJson(data, true);
+        string filePath = Application.persistentDataPath + "/" + GameDataFileName;
+
         // 올바르게 저장됐는지 확인 (자유롭게 변형)
         for (int i = 0; i < data.TopScore.Length - 1; i++)
         {
@@ -74,10 +78,6 @@ public class DataManager : MonoBehaviour
 
             else GameManager.Instance.text[i].GetComponent<Text>().text = $"{i + 1}. " + data.TopScore[i];
         }
-
-        // 클래스를 Json 형식으로 전환 (true : 가독성 좋게 작성)
-        string ToJsonData = JsonUtility.ToJson(data, true);
-        string filePath = Application.persistentDataPath + "/" + GameDataFileName;
 
         File.WriteAllText(filePath, ToJsonData);
         print("저장 완료");
