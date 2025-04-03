@@ -191,4 +191,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   col: {fileID: 596592460586455393}
   Id: -1
+  weight: 0
   isPlayerEnter: 0
+  isSolved: 0
