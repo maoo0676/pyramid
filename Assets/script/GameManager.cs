@@ -74,6 +74,9 @@ public class GameManager : MonoBehaviour
     public int BagLevel = 1;
     public int LightLevel = 1;
 
+    [Header("# SomeThing")]
+    public Color Hurt = new Color(1, 126 / 255f, 126 / 255f);
+
 
     // Start is called before the first frame update
     void Awake()
@@ -93,6 +96,9 @@ public class GameManager : MonoBehaviour
         GoldText.text = Gold.ToString();
         KeyText.text = Keymount.ToString();
         ScoreText.text = Score.ToString();
+
+        HpGauge.fillAmount = 0.125f * Hp;
+        O2Gauge.fillAmount = 0.022222f * curTime;
 
         if (Input.GetKeyDown(KeyCode.F1))// ġƮŰ--------------------------
         {
@@ -158,13 +164,11 @@ public class GameManager : MonoBehaviour
         if (Hp > 8) Hp = 8;
         if (curTime > 45) curTime = 45;
 
-        HpGauge.fillAmount = 0.125f * Hp;
-        O2Gauge.fillAmount = 0.022222f * curTime;
-
         if (HitTime > 0)
         {
             HitTime -= Time.deltaTime;
         }
+        else player.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
         if (AttackDelay > 0)
         {
             AttackDelay -= Time.deltaTime;

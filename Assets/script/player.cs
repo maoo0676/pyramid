@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -105,6 +106,7 @@ public class Player : MonoBehaviour
 
         int LR = (rend.flipX)? 0: 1;
         AttackEffect[LR].SetActive(true);
+        anim.SetTrigger("isAttack");
 
         StartCoroutine(delete(0.2f, LR));
 
@@ -135,6 +137,7 @@ public class Player : MonoBehaviour
             {
                 anim.SetTrigger("isHit");
                 StartCoroutine(Freezecancel(0.6f));
+                gameObject.GetComponent<SpriteRenderer>().color = GameManager.Instance.Hurt;
                 GameManager.Instance.HitTime = 2;
             }
         }
@@ -146,11 +149,31 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Active(true, 0);
+        if (other.gameObject.name.Equals("lava"))
+        {
+            GameManager.Instance.Hp--;
+
+            if (GameManager.Instance.Hp <= 0)
+            {
+                StartCoroutine(Dead());
+            }
+            else
+            {
+                isJumping = true;
+                GameManager.Instance.jumplimt = 0;
+                gameObject.GetComponent<SpriteRenderer>().color = GameManager.Instance.Hurt;
+                GameManager.Instance.HitTime = 0.5f;
+                Jump();
+            }
+        }
+        else if (other.gameObject.CompareTag("Bullet")) return;
+        else if (other.gameObject.name.Equals("hidden")) other.gameObject.GetComponent<Tilemap>().color = new Color(1, 1, 1, 1/2f);
+        else Active(true, 0);
     }
     void OnTriggerExit2D(Collider2D other)
     {
         Active(false, 0);
+        if(other.gameObject.name.Equals("hidden")) other.gameObject.GetComponent<Tilemap>().color = Color.white;
     }
 
     public void Active(bool turning, int i)
@@ -164,25 +187,25 @@ public class Player : MonoBehaviour
         rigid.constraints = RigidbodyConstraints2D.None;
         rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
         Freeze = false;
+        Debug.Log("¶¯");
     }
 
     public IEnumerator Dead()
     {
         Freeze = true;
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
-        gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
-        anim.SetBool("isDead", true);
+        gameObject.GetComponent<CircleCollider2D>().enabled = false;
+        //anim.SetBool("isDead", true);
         GameManager.Instance.selling(false);
+        Debug.Log("¾óÀ½");
         yield return new WaitForSeconds(5f);
 
         GameManager.Instance.StageLoad(GameManager.Instance.mapId);
 
         StartCoroutine(Freezecancel(2f));
         yield return new WaitForSeconds(2f);
-        anim.SetBool("isDead", false);
-        gameObject.GetComponent<BoxCollider2D>().enabled = true;
-        gameObject.GetComponent<CapsuleCollider2D>().enabled = true;
+        //anim.SetBool("isDead", false);
+        gameObject.GetComponent<CircleCollider2D>().enabled = false;
     }
 
     IEnumerator delete(float time, int i)

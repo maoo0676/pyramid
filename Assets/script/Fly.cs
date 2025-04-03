@@ -78,7 +78,9 @@ public class Fly : MonoBehaviour
     IEnumerator Hit(float time)
     {
         anim.SetTrigger("isHit");
+        gameObject.GetComponent<SpriteRenderer>().color = GameManager.Instance.Hurt;
         yield return new WaitForSeconds(time);
         isHit = false;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 }
