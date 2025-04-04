@@ -1,3 +1,26 @@
 게임개발 리소스 파일\게임개발 그래픽 리소스_수정\2D\Dungeon Crawl 32x32 tiles\Dungeon Crawl Stone Soup Full
 
 게임개발 리소스 파일\게임개발 그래픽 리소스_수정\2D\2D Roguelike
+
+gamemanager
+-awake	: this 정적 선언
+		: 처음 맵 로딩
+		: 데이터 불러오기(datamanger)
+
+-update : UI 체력 산소게이지 업데이트
+		: 치트키
+		: 슬롯키
+		: 무적타이머, 산소타이머(다 될 시 죽음(player))
+		: 보물탐지기 화살표 방향
+
+-ResetGame
+ ToMenu
+ GameResult : 모르면 병신
+
+-P_active : 도움말 n초 띄우기
+
+-Slotactive : 소모용 아이템 마다 능력 활성화 (무게 반영)
+			: 소모 아이템 사용 시 슬롯 정렬
+
+-Slotsetting : 
+			 :

@@ -33,7 +33,7 @@ public class Fly : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (distance < 5f||!isLive||isHit)
+        if (distance < 5f||!isLive||isHit||GameManager.Instance.hiding)
             return;
 
         Vector2 dirVec = Target.position - rigid.position;
@@ -44,7 +44,7 @@ public class Fly : MonoBehaviour
 
     void LateUpdate()
     {
-        if (distance < 5f || !isLive||isHit)
+        if (distance < 5f||!isLive||isHit||GameManager.Instance.hiding)
             return;
 
         rend.flipX = Target.position.x < rigid.position.x;

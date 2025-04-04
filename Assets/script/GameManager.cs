@@ -282,6 +282,8 @@ public class GameManager : MonoBehaviour
                 Player.Instance.Speed = 10;
                 break;
             case 6:
+                hiding = true;
+                player.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
                 break;
             default:
                 Weight += 10;
@@ -324,11 +326,12 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(10f);
         switch(i)
         {
-            case 3:
-                break;
             case 4:
             case 5:
                 Player.Instance.Speed = 5;
+                break;
+            case 6:
+                player.GetComponent<SpriteRenderer>().color = Color.white;
                 break;
         }
         Player.Instance.Active(false, i);
