@@ -83,8 +83,6 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
 
-        waveCenter = InDungeon.transform.GetChild(5).gameObject;
-
         StageLoad(mapId);
 
         DataManager.Instance.StartGame();
@@ -140,8 +138,8 @@ public class GameManager : MonoBehaviour
             if(mapId != 0)
             {
                 Time.timeScale = 0;
-                Pause.isOn = true;
-                Pause.gameObject.SetActive(true);
+                Pause.isOn = !Pause.isOn;
+                Pause.gameObject.SetActive(Pause.isOn);
             }
         }
         if (Input.GetKeyDown(KeyCode.F6))
@@ -169,6 +167,7 @@ public class GameManager : MonoBehaviour
             HitTime -= Time.deltaTime;
         }
         else player.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+
         if (AttackDelay > 0)
         {
             AttackDelay -= Time.deltaTime;
@@ -239,6 +238,10 @@ public class GameManager : MonoBehaviour
     public void ResetGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    public void ToMenu()
+    {
+        SceneManager.LoadScene("Title");
     }
     public void GameResult()
     {
@@ -348,7 +351,7 @@ public class GameManager : MonoBehaviour
             mapId = 0;
             if (isClear)
             {
-                if (Stage == 5)
+                if (Stage == 4)
                 {
                     GameResult();
                 }
@@ -361,21 +364,8 @@ public class GameManager : MonoBehaviour
         StageText.transform.GetChild(0).GetComponent<Text>().text = Stage.ToString();
 
         Debug.Log("" + mapId);
-
-        switch (mapId)
-        {
-            case 0:
-                player.position = new Vector3(1, -0.5f, 0);
-                break;
-            case 1:
-                player.position = new Vector3(-12, 16, 0);
-                break;
-            case 2:
-            case 3:
-            case 4:
-                player.position = new Vector3(-8, 16, 0);
-                break;
-        }
+        
+        player.position = new Vector3(1, -0.5f, 0);
 
         switch (mapId)
         {
@@ -419,22 +409,22 @@ public class GameManager : MonoBehaviour
                 switch(SlotId[i])
                 {
                     case 7:
-                        j += 100;
-                        break;
-                    case 8:
                         j += 500;
                         break;
-                    case 9:
+                    case 8:
                         j += 1000;
                         break;
-                    case 10:
+                    case 9:
                         j += 2000;
                         break;
-                    case 11:
+                    case 10:
                         j += 3000;
                         break;
+                    case 11:
+                        j += 4000;
+                        break;
                     case 12:
-                        j += 5000;
+                        j += 6000;
                         break;
                     case 13:
                         j += 10000;
@@ -475,19 +465,19 @@ public class GameManager : MonoBehaviour
     {
         if (Gold - SPrice[O2level - 1] < 0) return;
 
+        Gold -= SPrice[O2level - 1];
+
         O2level++;
 
-        switch(O2level - 1)
+        switch (O2level - 1)
         {
             case 1:
                 SText[0].transform.GetChild(0).GetComponent<Text>().text = SPrice[O2level - 1].ToString() + "G";
                 SText[0].transform.GetChild(1).GetComponent<Text>().text = "중압용 산소통";
-                GameObject.Find("O2Gas_Sell_0").SetActive(false);
                 break;
             case 2:
                 SText[0].transform.GetChild(0).GetComponent<Text>().text = SPrice[O2level - 1].ToString() + "G";
                 SText[0].transform.GetChild(1).GetComponent<Text>().text = "고압용 산소통";
-                GameObject.Find("O2Gas_Sell_1").SetActive(false);
                 break;
             case 3:
                 GameObject.Find("O2Gas_Sell").SetActive(false);
@@ -498,6 +488,8 @@ public class GameManager : MonoBehaviour
     {
         if (Gold - SPrice[2 + BagLevel] < 0) return;
 
+        Gold -= SPrice[2 + BagLevel];
+
         BagLevel++;
 
         switch (BagLevel)
@@ -507,7 +499,6 @@ public class GameManager : MonoBehaviour
                 MaxWeight = 250;
                 SText[1].transform.GetChild(0).GetComponent<Text>().text = SPrice[2 + BagLevel].ToString() + "G";
                 SText[1].transform.GetChild(1).GetComponent<Text>().text = "초대형 가방";
-                GameObject.Find("Bag_Sell_0").SetActive(false);
                 break;
             case 3:
                 SlotLimt += 2;
@@ -520,6 +511,8 @@ public class GameManager : MonoBehaviour
     {
         if (Gold - SPrice[5 + LightLevel] < 0) return;
 
+        Gold -= SPrice[5 + LightLevel];
+
         LightLevel++;
 
         switch (LightLevel)
@@ -528,7 +521,6 @@ public class GameManager : MonoBehaviour
                 SText[2].transform.GetChild(0).GetComponent<Text>().text = SPrice[4 + LightLevel].ToString() + "G";
                 SText[2].transform.GetChild(1).GetComponent<Text>().text = "초고급 손전등";
                 Dark[0].SetActive(false);
-                GameObject.Find("Light_Sell_0").SetActive(false);
                 break;
             case 2:
                 Dark[1].SetActive(false);

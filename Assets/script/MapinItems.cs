@@ -6,6 +6,7 @@ using UnityEngine;
 public class Map : MonoBehaviour
 {
     public GameObject items;
+    public GameObject monsters;
     public GameObject[] Jem;
 
     public bool[] isGotten;
@@ -73,6 +74,14 @@ public class Map : MonoBehaviour
 
             Debug.Log("-" + Jem[i].gameObject.name);
             Jem[i].SetActive(false);
+        }
+
+        if (monsters == null) return;
+
+        foreach (Transform child in monsters.transform)
+        {
+            Debug.Log(child.gameObject.name);
+            child.gameObject.SetActive(true);
         }
     }
     void Loss()

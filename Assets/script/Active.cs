@@ -5,7 +5,7 @@ using UnityEngine;
 public class Active : MonoBehaviour
 {
     GameObject player;
-    public GameObject col;
+    GameObject col;
     public int Id;
     public int weight;
 
@@ -16,12 +16,14 @@ public class Active : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
+        col = GetComponent<Collider2D>().gameObject;
+
         isPlayerEnter = false;
     }
 
     void Update()
     {
-        if (GameManager.Instance.Hp <= 0 || GameManager.Instance.Pause.isOn) return;
+        if (Player.Instance.Freeze|| GameManager.Instance.Pause.isOn) return;
 
         // 플레이어가 범위 안에 있고 E 키를 누른다면
         if (isPlayerEnter && Input.GetButtonDown("Trigger"))
@@ -76,9 +78,9 @@ public class Active : MonoBehaviour
                 GameManager.Instance.selling(true);
                 GameManager.Instance.StageLoad(GameManager.Instance.mapId);
             }
-            else if (col.name.Equals("Peddler"))
+            else if (col.name.Equals("enter_shop"))
             {
-                Debug.Log("Peddler");
+                Debug.Log("enter_shop");
                 GameManager.Instance.Pause.isOn = true;
                 GameManager.Instance.Store.SetActive(true);
                 GameManager.Instance.StageText.SetActive(false);

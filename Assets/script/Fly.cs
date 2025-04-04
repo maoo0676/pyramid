@@ -11,6 +11,7 @@ public class Fly : MonoBehaviour
     public bool isHit = false;
     int Hp = 2;
     float distance;
+    Vector2 respawn;
 
     Rigidbody2D rigid;
     SpriteRenderer rend;
@@ -19,6 +20,7 @@ public class Fly : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        respawn = this.transform.position;
         rigid = GetComponent<Rigidbody2D>();
         rend = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
@@ -72,12 +74,18 @@ public class Fly : MonoBehaviour
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         rigid.gravityScale = 1;
         yield return new WaitForSeconds(time);
+        isLive = true;
+        isHit = true;
         gameObject.SetActive(false);
+
+        rigid.gravityScale = 0;
+        gameObject.GetComponent<BoxCollider2D>().enabled = true;
+        Hp = 2;
+        this.transform.position = respawn;
     }
 
     IEnumerator Hit(float time)
     {
-        anim.SetTrigger("isHit");
         gameObject.GetComponent<SpriteRenderer>().color = GameManager.Instance.Hurt;
         yield return new WaitForSeconds(time);
         isHit = false;

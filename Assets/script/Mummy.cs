@@ -68,13 +68,19 @@ public class Mummy : MonoBehaviour
         isLive = false;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         yield return new WaitForSeconds(time);
+        isLive = true;
+        isHit = true;
         gameObject.SetActive(false);
+
+        Hp = 4;
+        gameObject.GetComponent<BoxCollider2D>().enabled = true;
     }
 
     IEnumerator Hit(float time)
     {
-        anim.SetTrigger("isHit");
+        gameObject.GetComponent<SpriteRenderer>().color = GameManager.Instance.Hurt;
         yield return new WaitForSeconds(time);
         isHit = false;
+        gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 }

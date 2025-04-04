@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public float jumpPower;
     bool isJumping = false;
     bool isAttack = false;
-    bool Freeze = false;
+    public bool Freeze = false;
 
     public GameObject[] Speech;
     public GameObject[] AttackEffect;
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.Hp <= 0||Freeze||GameManager.Instance.Pause.isOn)
+        if (Freeze||GameManager.Instance.Pause.isOn)
         {
             return;
         }
@@ -124,7 +124,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Monster")&&GameManager.Instance.HitTime <= 0)
+        if (other.gameObject.CompareTag("Monster")&&GameManager.Instance.HitTime <= 0&&!Freeze)
         {
             GameManager.Instance.Hp--;
             Freeze = true;
@@ -166,7 +166,7 @@ public class Player : MonoBehaviour
                 Jump();
             }
         }
-        else if (other.gameObject.CompareTag("Bullet")) return;
+        else if (other.gameObject.CompareTag("Bullet")||other.gameObject.name.Equals("return")) return;
         else if (other.gameObject.name.Equals("hidden")) other.gameObject.GetComponent<Tilemap>().color = new Color(1, 1, 1, 1/2f);
         else Active(true, 0);
     }
@@ -193,9 +193,10 @@ public class Player : MonoBehaviour
     public IEnumerator Dead()
     {
         Freeze = true;
+        rigid.rotation = 90f;
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
-        //anim.SetBool("isDead", true);
+        anim.SetBool("isDead", true);
         GameManager.Instance.selling(false);
         Debug.Log("¾óÀ½");
         yield return new WaitForSeconds(5f);
@@ -204,8 +205,9 @@ public class Player : MonoBehaviour
 
         StartCoroutine(Freezecancel(2f));
         yield return new WaitForSeconds(2f);
-        //anim.SetBool("isDead", false);
-        gameObject.GetComponent<CircleCollider2D>().enabled = false;
+        anim.SetBool("isDead", false);
+        rigid.rotation = 0;
+        gameObject.GetComponent<CircleCollider2D>().enabled = true;
     }
 
     IEnumerator delete(float time, int i)
