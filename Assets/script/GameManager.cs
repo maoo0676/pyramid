@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     public bool isClear = false;
 
     [Header("# Object")]
-    public Image slot;
+    public GameObject slot;
     public Image HpGauge;
     public Image O2Gauge;
     public Toggle Pause;
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
     public float HitTime = 0.1f;
     public float AttackDelay = 0f;
     public int jumplimt = 0;
-    public GameObject[] Dark;
+    public GameObject Dark;
     public bool hiding = false;
 
     [Header("# Bag Info")]
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     public int MaxWeight = 150;
     public int[] SlotId = { -1 };
     public int Keymount = 0;
-    public float itemstart, itemspace;
+    public float itempadding;
 
     [Header("# Store Info")]
     public GameObject[] SText;
@@ -131,6 +131,11 @@ public class GameManager : MonoBehaviour
                 Stage++;
                 StageLoad(0);
             }
+            else if (mapId == 0)
+            {
+                Stage = 1;
+                StageLoad(0);
+            }
             else Debug.Log("is none");
         }
         if (Input.GetKeyDown(KeyCode.F5))
@@ -192,10 +197,7 @@ public class GameManager : MonoBehaviour
             Debug.Log($"{distance}");
 
             if (distance < 3) wave.fillAmount = 0;
-            else if (distance < 7) wave.fillAmount = 1;
-            else if (distance < 11) wave.fillAmount = 0.077f * 9;
-            else if (distance < 15) wave.fillAmount = 0.077f * 5;
-            else wave.fillAmount = 0.077f * 2;
+            else wave.fillAmount = 1;
 
             waveCenter.transform.rotation = Quaternion.FromToRotation(Vector3.up, FoundTresure.transform.position - player.position);
         }
@@ -291,7 +293,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        StartCoroutine(Itemability(SlotId[i - 1]));
+        StartCoroutine(ItemabilityEnd(SlotId[i - 1]));
 
         if (1 <= SlotId[i - 1]&&SlotId[i - 1] <= 6)
         {
@@ -310,18 +312,21 @@ public class GameManager : MonoBehaviour
 
     public void Slotsetting()
     {
-        foreach (Transform child in slot.transform)
+        for (int i = 0; i < SlotLimt; i++)
         {
-            Destroy(child.gameObject);
-        }
-        for (int j = 0; j < SlotAmount; j++)
-        {
+            Transform items = slot.transform.GetChild(i);
+            foreach (Transform child in items)
+            {
+                Destroy(child.gameObject);
+            }
 
-            slotitems[j] = Instantiate(itemsimage[SlotId[j] - 1], slot.transform.position + new Vector3(itemstart + j * itemspace, 0, 0), Quaternion.identity, slot.transform);
-            Debug.Log(slot.transform.position);
+            if (SlotId[i] == -1) continue;
+
+            slotitems[i] = Instantiate(itemsimage[SlotId[i] - 1], items.position, Quaternion.identity, items);
+            Debug.Log(slot.transform.position);    
         }
     }
-    IEnumerator Itemability(int i)
+    IEnumerator ItemabilityEnd(int i)
     {
         yield return new WaitForSeconds(10f);
         switch(i)
@@ -334,13 +339,12 @@ public class GameManager : MonoBehaviour
                 player.GetComponent<SpriteRenderer>().color = Color.white;
                 break;
         }
-        Player.Instance.Active(false, i);
     }
 
     public void StageLoad(int i)//-------------------------------------맵
     {
-        slot.fillAmount = 0.125f * SlotLimt;
         curTime = 45;
+        Hp = 8;
         Weight = 0;
         FoundTresure = null;
 
@@ -509,6 +513,13 @@ public class GameManager : MonoBehaviour
                 GameObject.Find("Bag_Sell").SetActive(false);
                 break;
         }
+        int j = 0;
+        foreach (Transform child in slot.transform)
+        {
+            if (SlotLimt >= j + 1) slot.transform.GetChild(j).gameObject.SetActive(true);
+            else break;
+            j++;
+        }
     }
     public void LightUpgrade()
     {
@@ -523,11 +534,11 @@ public class GameManager : MonoBehaviour
             case 1:
                 SText[2].transform.GetChild(0).GetComponent<Text>().text = SPrice[4 + LightLevel].ToString() + "G";
                 SText[2].transform.GetChild(1).GetComponent<Text>().text = "초고급 손전등";
-                Dark[0].SetActive(false);
+                Dark.transform.localScale = new Vector3(1.75f, 2f);
                 break;
             case 2:
-                Dark[1].SetActive(false);
                 GameObject.Find("Light_Sell").SetActive(false);
+                Dark.transform.localScale = new Vector3(2f, 2.5f);
                 break;
         }
     }
