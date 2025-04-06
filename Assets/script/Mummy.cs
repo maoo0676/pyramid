@@ -69,7 +69,7 @@ public class Mummy : MonoBehaviour
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         yield return new WaitForSeconds(time);
         isLive = true;
-        isHit = true;
+        isHit = false;
         gameObject.SetActive(false);
 
         Hp = 4;

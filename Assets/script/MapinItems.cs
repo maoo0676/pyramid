@@ -19,10 +19,9 @@ public class Map : MonoBehaviour
     void Update()
     {
         if (GameManager.Instance.isMapStart) Startroutine();
-        if (GameManager.Instance.Hp <= 0 || 0 == GameManager.Instance.curTime) Loss();
+        if (GameManager.Instance.Hp <= 0 || GameManager.Instance.curTime <= 0) Loss();
         if (findertarget != -1 && (GameManager.Instance.FoundTresure == null || !Jem[findertarget].activeSelf))
         {
-            Debug.Log("isClear");
             GameManager.Instance.waveCenter.gameObject.SetActive(false);
             FoundTresure();
         }
@@ -100,7 +99,6 @@ public class Map : MonoBehaviour
     }
     void FoundTresure()
     {
-        findertarget = -1;
         GameManager.Instance.FoundTresure = null;
 
         for (int i = 0; i < Jem.Length; i++)
@@ -112,6 +110,12 @@ public class Map : MonoBehaviour
                 GameManager.Instance.FoundTresure = Jem[i].gameObject;
                 return;
             }
+        }
+
+        if (GameManager.Instance.FoundTresure == null)
+        {
+            findertarget = -1;
+            Debug.Log("None");
         }
     }
 }

@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     Rigidbody2D rigid;
     SpriteRenderer rend;
     Animator anim;
-    Vector3 movement;
 
     public int Speed;
     public float jumpPower;
@@ -46,7 +45,7 @@ public class Player : MonoBehaviour
             isJumping = true;
         }
 
-        if (Input.GetButtonDown("Attack"))
+        if (Input.GetButtonDown("Attack")&&GameManager.Instance.mapId != 0)
         {
             isAttack = true;
         }
@@ -81,7 +80,7 @@ public class Player : MonoBehaviour
 
     public void Jump()
     {
-        if (!isJumping||GameManager.Instance.jumplimt >= 1)
+        if (!isJumping||GameManager.Instance.jumplimt >= 2)
         {
             isJumping = false;
             return;
@@ -120,11 +119,8 @@ public class Player : MonoBehaviour
         {
             GameManager.Instance.jumplimt = 0;
         }
-    }
 
-    private void OnCollisionStay2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Monster")&&GameManager.Instance.HitTime <= 0&&!Freeze)
+        if (other.gameObject.CompareTag("Monster") && GameManager.Instance.HitTime <= 0 && !Freeze && !GameManager.Instance.hiding)
         {
             GameManager.Instance.Hp--;
             Freeze = true;
@@ -141,15 +137,7 @@ public class Player : MonoBehaviour
                 GameManager.Instance.HitTime = 2;
             }
         }
-        else if (other.gameObject.name.Equals("floors"))
-        {
-            GameManager.Instance.jumplimt = 0;
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.name.Equals("lava"))
+        else if (other.gameObject.name.Equals("lava"))
         {
             GameManager.Instance.Hp--;
 
@@ -166,7 +154,11 @@ public class Player : MonoBehaviour
                 Jump();
             }
         }
-        else if (other.gameObject.CompareTag("Bullet")||other.gameObject.name.Equals("return")) return;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Bullet")||other.gameObject.name.Equals("return")) return;
         else if (other.gameObject.name.Equals("hidden")) other.gameObject.GetComponent<Tilemap>().color = new Color(1, 1, 1, 1/2f);
         else Active(true, 0);
     }
