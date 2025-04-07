@@ -3,10 +3,12 @@
 
 게임개발 리소스 파일\게임개발 그래픽 리소스_수정\2D\2D Roguelike
 
+게임개발 리소스 파일\게임개발 그래픽 리소스_수정\2D\Free Asset - 2D Handcrafted Art\Free Asset - 2D Handcrafted Art\Music
+
 gamemanager 8 ~ 54
 
 -awake	: static this 정적 선언
-		: 처음 맵 로딩
+		: 처음 맵 로딩 (StageLoad)
 		: 데이터 불러오기 (datamanger)
 
 -update : UI 체력 산소게이지 업데이트

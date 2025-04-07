@@ -11,14 +11,12 @@ public class Mummy : MonoBehaviour
     public bool turn = true, isHit = false;
     int Hp = 4;
 
-    Rigidbody2D rigid;
     SpriteRenderer rend;
     Animator anim;
 
     // Start is called before the first frame update
     void Awake()
     {
-        rigid = GetComponent<Rigidbody2D>();
         rend = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
     }
@@ -33,12 +31,12 @@ public class Mummy : MonoBehaviour
         if (turn)
         {
             moveVelocity = Vector3.right;
-            rend.flipX = false;
+            rend.flipX = true;
         }
         else
         {
             moveVelocity = Vector3.left;
-            rend.flipX = true;
+            rend.flipX = false;
         }
 
         transform.position += moveVelocity * speed * Time.deltaTime;

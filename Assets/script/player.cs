@@ -120,7 +120,7 @@ public class Player : MonoBehaviour
             GameManager.Instance.jumplimt = 0;
         }
 
-        if (other.gameObject.CompareTag("Monster") && GameManager.Instance.HitTime <= 0 && !Freeze && !GameManager.Instance.hiding)
+        if (other.gameObject.CompareTag("Monster") && GameManager.Instance.HitTime <= 0 && !Freeze)
         {
             GameManager.Instance.Hp--;
             Freeze = true;
@@ -158,9 +158,11 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Bullet")||other.gameObject.name.Equals("return")) return;
+        if (other.gameObject.name.Equals("AttackEffect") || other.gameObject.name.Equals("return")) return;
         else if (other.gameObject.name.Equals("hidden")) other.gameObject.GetComponent<Tilemap>().color = new Color(1, 1, 1, 1/2f);
-        else Active(true, 0);
+        else {
+            Debug.Log("1234");
+            Active(true, 0); }
     }
     void OnTriggerExit2D(Collider2D other)
     {

@@ -54,7 +54,6 @@ public class GameManager : MonoBehaviour
     public float AttackDelay = 0f;
     public int jumplimt = 0;
     public GameObject Dark;
-    public bool hiding = false;
 
     [Header("# Bag Info")]
     public Image[] itemsimage;
@@ -171,7 +170,7 @@ public class GameManager : MonoBehaviour
         {
             HitTime -= Time.deltaTime;
         }
-        else player.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        else player.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
 
         if (AttackDelay > 0)
         {
@@ -284,7 +283,7 @@ public class GameManager : MonoBehaviour
                 Player.Instance.Speed = 10;
                 break;
             case 6:
-                hiding = true;
+                HitTime = 10;
                 player.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
                 break;
             default:
@@ -323,7 +322,7 @@ public class GameManager : MonoBehaviour
             if (SlotId[i] == -1) continue;
 
             slotitems[i] = Instantiate(itemsimage[SlotId[i] - 1], items.position, Quaternion.identity, items);
-            Debug.Log(slot.transform.position);    
+            Debug.Log(SlotId[i] - 1);    
         }
     }
     IEnumerator ItemabilityEnd(int i)
@@ -502,13 +501,13 @@ public class GameManager : MonoBehaviour
         switch (BagLevel)
         {
             case 2:
-                SlotLimt += 2;
+                SlotLimt = 6;
                 MaxWeight = 250;
                 SText[1].transform.GetChild(0).GetComponent<Text>().text = SPrice[2 + BagLevel].ToString() + "G";
                 SText[1].transform.GetChild(1).GetComponent<Text>().text = "초대형 가방";
                 break;
             case 3:
-                SlotLimt += 2;
+                SlotLimt = 8;
                 MaxWeight = 400;
                 GameObject.Find("Bag_Sell").SetActive(false);
                 break;

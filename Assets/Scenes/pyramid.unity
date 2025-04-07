@@ -793,7 +793,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &163999670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1724,11 +1724,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7289238728942514355, guid: 4a912477d7936fc4ebd295ecfb9528df, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22.73169
+      value: -5.47
       objectReference: {fileID: 0}
     - target: {fileID: 7289238728942514355, guid: 4a912477d7936fc4ebd295ecfb9528df, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.7665577
+      value: 2.88
       objectReference: {fileID: 0}
     - target: {fileID: 7289238728942514355, guid: 4a912477d7936fc4ebd295ecfb9528df, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3315,7 +3315,6 @@ MonoBehaviour:
   AttackDelay: 0
   jumplimt: 0
   Dark: {fileID: 2035690800}
-  hiding: 0
   itemsimage:
   - {fileID: 95218086862831323, guid: 3cdf6eadd6a515447af045f40521b55f, type: 3}
   - {fileID: 9200373641354361729, guid: 600bc9bc4f9ba514dac7e73a579a15f7, type: 3}
@@ -11794,6 +11793,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -971585624, guid: dc52a50e2c989b845be39c1f3c97d217, type: 3}
     - target: {fileID: 660758313572395101, guid: 1aba1bb92ae380d4c898e6e905dc32b9, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 660758313572395101, guid: 1aba1bb92ae380d4c898e6e905dc32b9, type: 3}
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
@@ -12006,6 +12009,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4529677761986556213, guid: 173591408caaf9d41b2e9a3d04ab487c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4649305977185769406, guid: 173591408caaf9d41b2e9a3d04ab487c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 15.44
@@ -12020,7 +12027,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4666193690578600285, guid: 173591408caaf9d41b2e9a3d04ab487c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4947900880237058909, guid: 173591408caaf9d41b2e9a3d04ab487c, type: 3}
       propertyPath: m_Size.y

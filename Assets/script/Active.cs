@@ -5,7 +5,6 @@ using UnityEngine;
 public class Active : MonoBehaviour
 {
     GameObject player;
-    GameObject col;
     public int Id;
     public int weight;
 
@@ -15,8 +14,6 @@ public class Active : MonoBehaviour
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-
-        col = GetComponent<Collider2D>().gameObject;
 
         isPlayerEnter = false;
     }
@@ -28,12 +25,12 @@ public class Active : MonoBehaviour
         // 플레이어가 범위 안에 있고 E 키를 누른다면
         if (isPlayerEnter && Input.GetButtonDown("Trigger"))
         {
-            if (col.CompareTag("Items"))
+            if (gameObject.CompareTag("Items"))
             {
                 switch (Id)
                 {
                     case 0:
-                        col.SetActive(false);
+                        gameObject.SetActive(false);
                         GameManager.Instance.Keymount++;
                         break;
                     default:
@@ -49,7 +46,7 @@ public class Active : MonoBehaviour
                                 GameManager.Instance.SlotAmount++;
                                 GameManager.Instance.Slotsetting();
                                 GameManager.Instance.Weight += weight;
-                                col.SetActive(false);
+                                gameObject.SetActive(false);
                             }
                         }
                         else
@@ -61,31 +58,31 @@ public class Active : MonoBehaviour
 
 
             }
-            else if (col.CompareTag("Doors"))
+            else if (gameObject.CompareTag("Doors"))
             {
                 if (GameManager.Instance.Keymount > 0)
                 {
                     GameManager.Instance.Keymount--;
-                    col.SetActive(false);
+                    gameObject.SetActive(false);
                 }
                 else
                 {
                     StartCoroutine(GameManager.Instance.P_active(2));
                 }
             }
-            else if (col.CompareTag("Doorway"))
+            else if (gameObject.CompareTag("Doorway"))
             {
-                GameManager.Instance.selling(true);
+                if (GameManager.Instance.mapId != 0) GameManager.Instance.selling(true);
                 GameManager.Instance.StageLoad(GameManager.Instance.mapId);
             }
-            else if (col.name.Equals("enter_shop"))
+            else if (gameObject.name.Equals("enter_shop"))
             {
                 Debug.Log("enter_shop");
                 GameManager.Instance.Pause.isOn = true;
                 GameManager.Instance.Store.SetActive(true);
                 GameManager.Instance.StageText.SetActive(false);
             }
-            else if (col.name.Equals("tutorial"))
+            else if (gameObject.name.Equals("tutorial"))
             {
                 GameManager.Instance.Pause.isOn = true;
                 GameManager.Instance.Tutorial.SetActive(true);
@@ -93,7 +90,7 @@ public class Active : MonoBehaviour
             }
             else
             {
-                col.SetActive(false);
+                gameObject.SetActive(false);
             }
         }
 
