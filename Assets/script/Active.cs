@@ -27,6 +27,7 @@ public class Active : MonoBehaviour
         {
             if (gameObject.CompareTag("Items"))
             {
+                AudioManager.instance.PlaySfx(AudioManager.Sfx.Get);
                 switch (Id)
                 {
                     case 0:

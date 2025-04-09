@@ -1,0 +1,145 @@
+
+게임개발 리소스 파일\게임개발 그래픽 리소스_수정\2D\Dungeon Crawl 32x32 tiles\Dungeon Crawl Stone Soup Full
+
+게임개발 리소스 파일\게임개발 그래픽 리소스_수정\2D\2D Roguelike
+
+<<<<<<< HEAD
+gamemanager 8 ~ 54
+
+-awake	: static this 정적 선언
+		: 처음 맵 로딩
+=======
+게임개발 리소스 파일\게임개발 그래픽 리소스_수정\2D\Free Asset - 2D Handcrafted Art\Free Asset - 2D Handcrafted Art\Music
+
+gamemanager 8 ~ 54
+
+-awake	: static this 정적 선언
+		: 처음 맵 로딩 (StageLoad)
+>>>>>>> 0013de048f6c562cdbc5122184bc3c9ae4101a2a
+		: 데이터 불러오기 (datamanger)
+
+-update : UI 체력 산소게이지 업데이트
+		: 치트키
+		: 슬롯키
+		: 무적타이머, 산소타이머 (다 될 시 죽음(player))
+		: 보물탐지기 화살표 방향
+
+-ResetGame
+ ToMenu
+ GameResult : 모르면 걍 병신
+
+-P_active : 도움말 n초 띄우기
+
+-Slotactive : 소모용 아이템 마다 능력 활성화 (무게 반영)
+			: 소모 아이템 사용 시 슬롯 정렬 (Slotsetting)
+
+-Slotsetting : 슬롯안에 item 선언
+			 : item안에 정렬된 슬롯 이미지 생성
+
+-ItemabilityEnd : 특정 아이템 효과 종료
+
+-StageLoad : 시간, 무게, 슬롯 개수, 탐지기 보물 초기화
+		   : i가 0 일때, 지금 스테이지로 가기
+		   : 0이 아닐때, 통로로 가기
+						 클리어 할 경우 스테이지 상승 (4스테이지는 바로 점수판)
+						 +남은 돈만큼 추가 점수
+		   : 지금이 몇 스테이지인지 텍스트로 표시]
+		   : 플레이어 위치 이동
+		   : 스테이지 마다 산소틱 설정
+		   : 맵 생성
+		   : 던전안에선 던전UI 표시
+		   : 클리어 초기화
+
+-selling : 살아서 나가면 팔 수 있는 물건 팔기
+		 : 죽으면 말장 도로묵
+		 : 물건 개수 초기화
+		 : 슬롯 비우기 (Slotsetting)
+
+-closeTutorial
+ closeStore		: 이것도 모르면 병신
+
+-O2GasUpgrade
+ BagUpgrade
+ LightUpgrade : 해당 업그레이드에 맞춰 업그레이드
+
+player 58 ~ 106
+
+-Awake : static this 정적 선언
+	   : rigid, rend, anim 각 컴포넌트 선언
+
+-Update : 프리즈거나 pause켜져 있으면 return
+		: 점프(w), 공격(e) 누를 시 점프, 공격
+		: Move, Attack, Jump 함수 호출
+
+-Move : Vector3 변수 선언
+	  : 왼쪽, 오른쪽에 따라 Vector3.x값 설정
+	  : 이동에 따라 랜더 반전(rend.flip)
+	  : 플레이어 이동(+= Vector3 * Speed * Time.deltaTime)
+
+-Jump : 점프 키를 누르지 않았거나 점프 횟수가 2번이상일 시 return
+	  : 점프
+
+-Attack : 공격 키를 누르지 않았거나 공격 딜레이 일 시 return
+		: 어느 방향을 보는지에 따라 공격 방향 설정
+		: 공격 애니메이션 재생
+		: 공격 트리거 제거
+		: 공격 딜레이 설정
+
+-OnCollisionEnter2D : floor에 닿았을 시 점프 횟수 초기화
+
+					: 무적시간이 아닐 때 몬스터에 닿으면 체력 감소
+				    : 체력이 0 이하면 죽음(Daed)
+				    : 아니면 피격 애니메이션 재생, 경직, 붉어짐
+
+				    : lava에 닿으면 체력 감소
+				    : 체력이 0 이하면 죽음(Daed)
+				    : 아니면 강제 점프, 붉어짐
+
+-OnTriggerEnter2D : bullet태그, return에 닿으면 return
+				  : hidden에 닿으면 hidden이 투명해짐
+				  : 나머지는 상호작용(Active)
+
+-OnTriggerExit2D : 상호작용 해제 (Active)
+				 : hidden은 원래대로
+
+-Active : 도움말 켜고 끄기
+
+-Freezecancel : 몇초 후 constrains 해제, z축은 고정
+
+-Dead : 90도 회전, 경직, 콜라이더 비활성화
+      : 사망 애니메이션 재생
+	  : 소지품 초기화(selling)
+	  : 몇초 후 통로로 이동
+	  : 정신 차리기
+
+-delete : 공격 트리거 제거
+
+MapinItems 110 ~ 127
+
+-Update : 맵 시작 (Startroutine)
+		: 게임오버 시 소지품 분실 (Loss)
+		: 탐지기 보물 획득 시 새 탐지기 보물 지정 (Foundtresure)
+		: 클리어 시 클리어 표시
+		: 모든 보물 획득 시 클리어
+
+-Startroutine : 탐지기 보물 지정 (Foundtresure)
+			  : 지금 얻은 보물 체크 해제
+			  : 열쇠 제외 모든 아이템 활성화
+			  : 얻었던 아이템 비활성화
+			  : 몬스터 활성화
+
+-Loss : 클리어 실패
+	  : 지금 얻은 보물 체크 해제
+
+-Foundtresure : 탐지기 보물 초기화
+			  : 가장 앞의 보물 지정후 return
+			  : 보물이 없을 시 None
+
+DataManager
+
+-StartGame : 저장 파일 위치 문자열 선언
+		   : 저장된 파일이 있으면 불러오기
+
+-EndGame : 데이터 내의 5개의 점수 정렬
+		 : 점수판에 점수 표시
+		 : 파일 저장
