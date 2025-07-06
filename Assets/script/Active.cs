@@ -20,74 +20,97 @@ public class Active : MonoBehaviour
 
     void Update()
     {
-        if (Player.Instance.Freeze|| GameManager.Instance.Pause.isOn) return;
+        if (Player.Instance.Freeze) return;
 
         // 플레이어가 범위 안에 있고 E 키를 누른다면
         if (isPlayerEnter && Input.GetButtonDown("Trigger"))
         {
             if (gameObject.CompareTag("Items"))
             {
-                AudioManager.instance.PlaySfx(AudioManager.Sfx.Get);
                 switch (Id)
                 {
-                    case 0:
+                    case -2:
                         gameObject.SetActive(false);
-                        GameManager.Instance.Keymount++;
+                        GameManager.Instance.KeyAmount++;
+                        AudioManager.instance.PlaySfx(AudioManager.Sfx.Get);
                         break;
                     default:
-                        if (GameManager.Instance.SlotAmount < GameManager.Instance.SlotLimt)
+                        if (GameManager.Instance.Casual&&0 <= Id&&Id <= 7)
+                        {
+                            GameManager.Instance.Slotactive(Id, true);
+
+                            gameObject.SetActive(false);
+                            AudioManager.instance.PlaySfx(AudioManager.Sfx.Get);
+                            break;
+                        }
+
+                        if (GameManager.Instance.SlotAmount < 8)
                         {
                             if (GameManager.Instance.Weight + weight > GameManager.Instance.MaxWeight)
                             {
-                                StartCoroutine(GameManager.Instance.P_active(4));
+                                Debug.Log("가방이 무겁습니다.");
+                                StartCoroutine(Player.Instance.Speak(1));
                             }
-                            else
+                            if (GameManager.Instance.SlotAmount >= GameManager.Instance.SlotLimt)
                             {
-                                GameManager.Instance.SlotId[GameManager.Instance.SlotAmount] = Id;
-                                GameManager.Instance.SlotAmount++;
-                                GameManager.Instance.Slotsetting();
-                                GameManager.Instance.Weight += weight;
-                                gameObject.SetActive(false);
+                                Debug.Log("가방이  포화 상태입니다.");
+                                StartCoroutine(Player.Instance.Speak(0));
                             }
+                            GameManager.Instance.SlotId[GameManager.Instance.SlotAmount] = Id;
+                            GameManager.Instance.SlotAmount++;
+                            GameManager.Instance.Weight += weight;
+                            gameObject.SetActive(false);
+                            GameManager.Instance.SlotSetting();
+                            AudioManager.instance.PlaySfx(AudioManager.Sfx.Get);
                         }
                         else
                         {
-                            StartCoroutine(GameManager.Instance.P_active(4));
+                            Debug.Log("가방이 가득 찼습니다.");
+                            StartCoroutine(Player.Instance.Speak(2));
                         }
                         break;
                 }
-
-
             }
-            else if (gameObject.CompareTag("Doors"))
+            else if (gameObject.CompareTag("Coin"))
             {
-                if (GameManager.Instance.Keymount > 0)
+                GameManager.Instance.Gold += weight;
+                gameObject.SetActive(false);
+                AudioManager.instance.PlaySfx(AudioManager.Sfx.Get);
+            }
+
+            else if (gameObject.name.Equals("door"))
+            {
+                if (GameManager.Instance.KeyAmount > 0)
                 {
-                    GameManager.Instance.Keymount--;
+                    GameManager.Instance.KeyAmount--;
                     gameObject.SetActive(false);
+                    AudioManager.instance.PlaySfx(AudioManager.Sfx.Active);
                 }
                 else
                 {
-                    StartCoroutine(GameManager.Instance.P_active(2));
+                    StartCoroutine(Player.Instance.Speak(5));
+                    //열쇠가 없습니다.
                 }
             }
-            else if (gameObject.CompareTag("Doorway"))
+            else if (gameObject.name.Equals("exit"))
             {
-                if (GameManager.Instance.mapId != 0) GameManager.Instance.selling(true);
+                GameManager.Instance.selling(true);
+                if (GameManager.Instance.Casual) return;
+
                 GameManager.Instance.StageLoad(GameManager.Instance.mapId);
+                AudioManager.instance.PlaySfx(AudioManager.Sfx.Active);
             }
-            else if (gameObject.name.Equals("enter_shop"))
+            else if (gameObject.name.Equals("enter"))
+            {
+                GameManager.Instance.StageLoad(GameManager.Instance.mapId);
+                AudioManager.instance.PlaySfx(AudioManager.Sfx.Active);
+            }
+            else if (gameObject.name.Equals("Store"))
             {
                 Debug.Log("enter_shop");
                 GameManager.Instance.Pause.isOn = true;
                 GameManager.Instance.Store.SetActive(true);
-                GameManager.Instance.StageText.SetActive(false);
-            }
-            else if (gameObject.name.Equals("tutorial"))
-            {
-                GameManager.Instance.Pause.isOn = true;
-                GameManager.Instance.Tutorial.SetActive(true);
-                GameManager.Instance.StageText.SetActive(false);
+                AudioManager.instance.PlaySfx(AudioManager.Sfx.Active);
             }
             else
             {

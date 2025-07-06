@@ -7,4 +7,5 @@ public class Data
 {
     // 각 챕터의 잠금여부를 저장할 배열
     public int[] TopScore = new int[6];
+    public int[] CasualScore = new int[5];
 }

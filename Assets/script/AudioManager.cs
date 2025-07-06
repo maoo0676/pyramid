@@ -67,15 +67,10 @@ public class AudioManager : MonoBehaviour
         {
             bgmPlayer[0].Stop();
             bgmPlayer[1].Play();
-
-            if (GameManager.Instance.mapId == 4)
-            {
-                bgmPlayer[1].pitch = -1.2f;
-            }
-            else bgmPlayer[1].pitch = 1f;
         }
         else {
             bgmPlayer[0].Stop();
+            bgmPlayer[1].Stop();
         }
     }
 

@@ -30,7 +30,7 @@ public class Map : MonoBehaviour
         {
             Debug.Log("isClear");
             GameManager.Instance.isClear = true;
-            GameManager.Instance.StageText.transform.GetChild(1).gameObject.SetActive(true);
+            StartCoroutine(Player.Instance.Speak(14));
             return;
         }
 
@@ -58,9 +58,9 @@ public class Map : MonoBehaviour
 
         foreach (Transform child in items.transform)
         {
-            if (child.gameObject.name.Equals("Key")) continue;
+            if (child.gameObject.name.Equals("Key")||child.gameObject.CompareTag("Coin")) continue;
 
-            Debug.Log(child.gameObject.name);
+            //Debug.Log(child.gameObject.name);
             child.gameObject.SetActive(true);
         }
 
@@ -71,7 +71,7 @@ public class Map : MonoBehaviour
                 continue;
             }
 
-            Debug.Log("-" + Jem[i].gameObject.name);
+            //Debug.Log("-" + Jem[i].gameObject.name);
             Jem[i].SetActive(false);
         }
 
@@ -79,7 +79,7 @@ public class Map : MonoBehaviour
 
         foreach (Transform child in monsters.transform)
         {
-            Debug.Log(child.gameObject.name);
+            //Debug.Log(child.gameObject.name);
             child.gameObject.SetActive(true);
         }
     }

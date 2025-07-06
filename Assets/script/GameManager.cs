@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Tilemaps;
+using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    public GameObject Camera;
 
     [Header("# UI")]
     public GameObject InDungeon;
@@ -21,14 +23,15 @@ public class GameManager : MonoBehaviour
     [Header("# System Info")]
     public int Gold = 0;
     public int Score = 0;
+    public Text ScoreText;
     public Text GoldText;
     public Text KeyText;
-    public Text ScoreText;
     public GameObject StageText;
     public bool isClear = false;
+    public bool Casual; // true: 캐주얼, false: 클래식
 
     [Header("# Object")]
-    public GameObject slot;
+    public GameObject Slot;
     public Image HpGauge;
     public Image O2Gauge;
     public Toggle Pause;
@@ -43,6 +46,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] maps;
     public int mapId;
     public int Stage = 1;
+    public int StageLimt = 5;
     public bool isMapStart = false;
     public GameObject FoundTresure = null;
     public Image wave;
@@ -52,19 +56,24 @@ public class GameManager : MonoBehaviour
     public int Hp = 8;
     public float HitTime = 0.1f;
     public float AttackDelay = 0f;
-    public int jumplimt = 0;
+    public float Delay = 0f;
+    public Image AttackDelayimage;
+    public int JumpLimt = 0;
+    public int Damage = 1;
     public GameObject Dark;
 
     [Header("# Bag Info")]
     public Image[] itemsimage;
     public Image[] slotitems;
+    public Text WeightText;
     public int SlotLimt = 4;
     public int SlotAmount = 0;
     public int Weight = 0;
     public int MaxWeight = 150;
     public int[] SlotId = { -1 };
-    public int Keymount = 0;
-    public float itempadding;
+    public int KeyAmount = 0;
+    bool isFull = false;
+    public bool isHard = false;
 
     [Header("# Store Info")]
     public GameObject[] SText;
@@ -72,28 +81,35 @@ public class GameManager : MonoBehaviour
     public int O2level = 1;
     public int BagLevel = 1;
     public int LightLevel = 1;
+    public int KnifeLevel = 1;
+    public bool isFree = false;
+    bool stat = true;
 
     [Header("# SomeThing")]
     public Color Hurt = new Color(1, 126 / 255f, 126 / 255f);
+    int Fancount = 0;
 
-
-    // Start is called before the first frame update
     void Awake()
     {
         Instance = this;
 
-        StageLoad(mapId);
-
         DataManager.Instance.StartGame();
-
-        AudioManager.instance.PlayBgm(true);
     }
-
-    // Update is called once per frame
     void Update()
     {
-        GoldText.text = Gold.ToString();
-        KeyText.text = Keymount.ToString();
+        if (stat)
+        {
+            StageLoad(1);
+
+            DataManager.Instance.StartGame();
+
+            stat = false; 
+        }
+
+        Camera.transform.position = player.position + new Vector3(0, 0, -1);
+
+        GoldText.text = Gold.ToString() + "G";
+        KeyText.text = KeyAmount.ToString();
         ScoreText.text = Score.ToString();
 
         HpGauge.fillAmount = 0.125f * Hp;
@@ -106,11 +122,8 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            for (int i = 0; i < SPrice.Length; i++)
-            {
-                SPrice[i] = 0;
-            }
-            for (int i = 0; i < 3; i++)
+            isFree = true;
+            for (int i = 0; i < 5; i++)
             {
                 SText[i].transform.GetChild(0).GetComponent<Text>().text = "0G";
             }
@@ -118,17 +131,23 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F3))
         {
             Debug.Log("F3");
-            if (mapId != 0)
-            {
-                Debug.Log("reset");
-                StageLoad(0);
-            }
+            Debug.Log("reset");
+
+            curTime = -1;
+            selling(false);
+
+            if (mapId != 0) StageLoad(0);
+            else StageLoad(Stage);
         }
         if (Input.GetKeyDown(KeyCode.F4))
         {
+            Debug.Log("F4");
+
+            curTime = -1;
+            selling(false);
+
             if (Stage != 5 && mapId != 0)
             {
-                Debug.Log("F4");
                 Stage++;
                 StageLoad(0);
             }
@@ -141,12 +160,9 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            if(mapId != 0)
-            {
-                Time.timeScale = 0;
-                Pause.isOn = !Pause.isOn;
-                Pause.gameObject.SetActive(Pause.isOn);
-            }
+            Time.timeScale = 0;
+            Pause.isOn = !Pause.isOn;
+            Pause.gameObject.SetActive(Pause.isOn);
         }
         if (Input.GetKeyDown(KeyCode.F6))
         {
@@ -157,7 +173,8 @@ public class GameManager : MonoBehaviour
             GameResult();
         }// 치트키------------------------------------------------------------
 
-        if (!Pause.isOn) {
+        if (!Pause.isOn)
+        {
             Time.timeScale = 1;
             Pause.gameObject.SetActive(false);
         }
@@ -174,10 +191,14 @@ public class GameManager : MonoBehaviour
         }
         else player.gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
 
-        if (AttackDelay > 0)
+        if (AttackDelay >= Delay)
         {
-            AttackDelay -= Time.deltaTime;
+            Delay += Time.deltaTime;
+
+            AttackDelayimage.fillAmount = Delay / AttackDelay;
+            Debug.Log(Delay);
         }
+        else AttackDelayimage.fillAmount = 0;
 
         time += Time.deltaTime;
         if (time >= O2tic && 0 < curTime)
@@ -187,7 +208,6 @@ public class GameManager : MonoBehaviour
         }
         else if (0 == curTime)
         {
-            AudioManager.instance.PlaySfx(AudioManager.Sfx.Hit);
             StartCoroutine(Player.Instance.Dead());
             curTime--;
             Debug.Log("dead");
@@ -206,37 +226,36 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1))// 슬롯키--------------------------
         {
-            Slotactive(1);
+            Slotactive(1, false);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Slotactive(2);
+            Slotactive(2, false);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            Slotactive(3);
+            Slotactive(3, false);
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            Slotactive(4);
+            Slotactive(4, false);
         }
         if (Input.GetKeyDown(KeyCode.Alpha5) && SlotLimt >= 6)
         {
-            Slotactive(5);
+            Slotactive(5, false);
         }
         if (Input.GetKeyDown(KeyCode.Alpha6) && SlotLimt >= 6)
         {
-            Slotactive(6);
+            Slotactive(6, false);
         }
         if (Input.GetKeyDown(KeyCode.Alpha7) && SlotLimt >= 8)
         {
-            Slotactive(7);
+            Slotactive(7, false);
         }
         if (Input.GetKeyDown(KeyCode.Alpha8) && SlotLimt >= 8)
         {
-            Slotactive(8);
-        }// 슬롯키----------------------------------------------------------
-
+            Slotactive(8, false);
+        }
     }
 
     public void ResetGame()
@@ -249,96 +268,155 @@ public class GameManager : MonoBehaviour
     }
     public void GameResult()
     {
-        DataManager.Instance.EndGame();
+        if (Casual)
+        {
+            DataManager.Instance.EndCasual();
+        }
+        else {
+            DataManager.Instance.EndGame();
+        }
         Result.SetActive(true);
     }
 
-    public IEnumerator P_active(int i)
+    public void Slotactive(int i, bool immediately) //-------------------------------------슬롯
     {
-        Player.Instance.Active(true, i);
-        yield return new WaitForSeconds(2f);
-        Player.Instance.Active(false, i);
-    }
+        int S_id;
 
-    void Slotactive(int i) //-------------------------------------슬롯
-    {
-        Weight -= 10;
-        switch(SlotId[i - 1])
+        if (immediately) S_id = i;
+        else {
+            S_id = SlotId[i - 1];
+            Weight -= 10;
+        }
+
+        if (S_id != -1 || S_id <= 5)
         {
-            case 1:
+            StartCoroutine(Player.Instance.Speak(S_id + 6));
+        }
+        switch (S_id)
+        {
+            case -1:
+                Weight += 10;
+                StartCoroutine(Player.Instance.Speak(2));
+                break;
+            case 0:
                 Hp += 2;
                 break;
-            case 2:
+            case 1:
                 curTime += 9;
                 break;
-            case 3:
-                if(FoundTresure == null) StartCoroutine(P_active(4));
+            case 2:
+                if (FoundTresure == null) StartCoroutine(Player.Instance.Speak(4));
 
-                else waveCenter.gameObject.SetActive(true);
+                else
+                {
+                    waveCenter.transform.rotation = Quaternion.FromToRotation(Vector3.up, FoundTresure.transform.position - player.position);
+                    waveCenter.gameObject.SetActive(true);
+                }
 
                 Debug.Log("pathfinder");
                 break;
-            case 4:
-                if(Player.Instance.Speed <= 8)
+            case 3:
+                if (Player.Instance.Speed <= 8)
+                {
                     Player.Instance.Speed = 8;
+                    Fancount++;
+                }
+                break;
+            case 4:
+                Player.Instance.Speed = 10;
+                Fancount++;
                 break;
             case 5:
-                Player.Instance.Speed = 10;
-                break;
-            case 6:
                 HitTime = 10;
                 player.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
                 break;
+            case 6:
+                Dark.GetComponent<RectTransform>().localScale *= 1.2f;
+                break;
+            case 7:
+                Player.Instance.GetComponent<Rigidbody2D>().gravityScale *= 0.6f;
+                break;
             default:
                 Weight += 10;
-                StartCoroutine(P_active(4));
+                StartCoroutine(Player.Instance.Speak(3));
                 break;
         }
 
-        StartCoroutine(ItemabilityEnd(SlotId[i - 1]));
+        StartCoroutine(ItemabilityEnd(S_id));
 
-        if (1 <= SlotId[i - 1]&&SlotId[i - 1] <= 6)
+        if (immediately) return;
+
+        if (0 <= S_id && S_id <= 7)
         {
-            SlotId[i - 1] = -1;
+            S_id = -1;
 
-            for (int j = i; j < SlotLimt && SlotId[j] != -1; j++)
+            for (int j = i; j < SlotAmount && SlotId[j] != -1; j++)
             {
                 SlotId[j - 1] = SlotId[j];
                 SlotId[j] = -1;
             }
             SlotAmount--;
 
-            Slotsetting();
+            SlotSetting();
         }
     }
 
-    public void Slotsetting()
+    public void SlotSetting()
     {
-        for (int i = 0; i < SlotLimt; i++)
+        for (int i = 0; i < 8; i++)
         {
-            Transform items = slot.transform.GetChild(i);
-            foreach (Transform child in items)
+            Transform Slotitem = Slot.transform.GetChild(i);
+            foreach (Transform child in Slotitem)
             {
-                Destroy(child.gameObject);
+                if (child.gameObject.name.Equals("num")) continue;
+                child.gameObject.SetActive(false);
             }
+            if (i >= SlotAmount) continue;
 
-            if (SlotId[i] == -1) continue;
+            slotitems[i] = Instantiate(itemsimage[SlotId[i]], Slotitem.position, Quaternion.identity, Slotitem);
+        }
+        WeightText.GetComponent<Text>().text = $"{Weight}/{MaxWeight}";
 
-            slotitems[i] = Instantiate(itemsimage[SlotId[i] - 1], items.position, Quaternion.identity, items);
-            Debug.Log(SlotId[i] - 1);    
+        if(!isFull && SlotAmount > SlotLimt)
+        {
+            isFull = true;
+            Player.Instance.GetComponent<Rigidbody2D>().gravityScale /= 0.6f;
+        }
+        else if (isFull && SlotAmount <= SlotLimt)
+        {
+            isFull = false;
+            Player.Instance.GetComponent<Rigidbody2D>().gravityScale *= 0.6f;
+        }
+
+        if (!isHard && Weight > MaxWeight)
+        {
+            isHard = true;
+            WeightText.GetComponent<Text>().color = Color.red;
+        }
+        else if (isHard && Weight <= MaxWeight)
+        {
+            isHard = false;
+            WeightText.GetComponent<Text>().color = Color.white;
         }
     }
     IEnumerator ItemabilityEnd(int i)
     {
+        int nowfan = Fancount;
         yield return new WaitForSeconds(10f);
-        switch(i)
+        switch (i)
         {
+            case 3:
             case 4:
+                if (nowfan == Fancount) Player.Instance.Speed = 5;
+                break;
             case 5:
-                Player.Instance.Speed = 5;
+                player.GetComponent<SpriteRenderer>().color = Color.white;
                 break;
             case 6:
-                player.GetComponent<SpriteRenderer>().color = Color.white;
+                Dark.GetComponent<RectTransform>().localScale /= 1.2f;
+                break;
+            case 7:
+                Player.Instance.GetComponent<Rigidbody2D>().gravityScale /= 0.6f;
                 break;
         }
     }
@@ -350,9 +428,11 @@ public class GameManager : MonoBehaviour
         Weight = 0;
         FoundTresure = null;
 
+
         if (i == 0)
         {
             mapId = Stage;
+
             isMapStart = true;
         }
         else if (i != 0)
@@ -360,7 +440,7 @@ public class GameManager : MonoBehaviour
             mapId = 0;
             if (isClear)
             {
-                if (Stage == 4)
+                if (Stage == StageLimt)
                 {
                     GameResult();
                 }
@@ -373,25 +453,26 @@ public class GameManager : MonoBehaviour
         StageText.transform.GetChild(0).GetComponent<Text>().text = Stage.ToString();
 
         Debug.Log("" + mapId);
-        AudioManager.instance.PlayBgm(true);
+        //AudioManager.instance.PlayBgm(true);
 
         player.position = new Vector3(1, -0.5f, 0);
 
         switch (mapId)
         {
             case 1:
+            case 2:
                 O2tic = 1 * O2level;
                 break;
-            case 2:
             case 3:
+            case 4:
                 O2tic = 1f / 2 * O2level;
                 break;
-            case 4:
+            case 5:
                 O2tic = 1f / 4 * O2level;
                 break;
         }
 
-        if(mapId != 0)
+        if (mapId != 0)
         {
             maps[0].SetActive(false);
             maps[Stage - 1].SetActive(false);
@@ -407,6 +488,12 @@ public class GameManager : MonoBehaviour
         else InDungeon.SetActive(true);
 
         isClear = false;
+
+        if (Casual && mapId != 0)
+        {
+            StartCoroutine(CasualMode.instance.ReadyGo());
+            Debug.Log("ReadyGo");
+        }
     }
 
     public void selling(bool isLive)
@@ -414,18 +501,21 @@ public class GameManager : MonoBehaviour
         if (isLive)
         {
             int j = 0;
-            for(int i = 0; i < SlotAmount; i++)
+            for (int i = 0; i < SlotAmount; i++)
             {
-                switch(SlotId[i])
+                switch (SlotId[i])
                 {
-                    case 7:
+                    case 15:
                         j += 500;
                         break;
-                    case 8:
+                    case 16:
                         j += 1000;
                         break;
-                    case 9:
+                    case 8:
                         j += 2000;
+                        break;
+                    case 9:
+                        j += 3000;
                         break;
                     case 10:
                         j += 3000;
@@ -434,10 +524,13 @@ public class GameManager : MonoBehaviour
                         j += 4000;
                         break;
                     case 12:
-                        j += 6000;
+                        j += 7000;
                         break;
                     case 13:
                         j += 10000;
+                        break;
+                    case 14:
+                        j += 100000;
                         break;
                 }
                 SlotId[i] = -1;
@@ -448,46 +541,73 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < SlotAmount; i++)
+            for (int i = 0; i < 8; i++)
             {
                 SlotId[i] = -1;
             }
         }
         SlotAmount = 0;
-        Slotsetting();
-    }
-    public void closeTutorial()//-------------------------------------상점
-    {
-        Pause.isOn = false;
-        Tutorial.SetActive(false);
-        StageText.SetActive(true);
+        Weight = 0;
+
+        SlotSetting();
     }
 
-
-    public void closeStore()//-------------------------------------상점
+    public void StoreClose()
     {
         Pause.isOn = false;
         Store.SetActive(false);
-        StageText.SetActive(true);
+        isFree = false;
+
+        for (int i = 0; i < 5; i++)
+        {
+            SText[i].transform.GetChild(0).GetComponent<Text>().text = SPrice[i].ToString() + "G";
+        }
     }
 
     public void O2GasUpgrade()
     {
-        if (Gold - SPrice[O2level - 1] < 0) return;
+        if (isFree)
+        {
 
-        Gold -= SPrice[O2level - 1];
+            O2level++;
+
+            switch (O2level - 1)
+            {
+                case 1:
+                    SPrice[0] = 1000;
+                    SText[0].transform.GetChild(0).GetComponent<Text>().text = "0G";
+                    SText[0].GetComponent<Text>().text = "중압용 산소통";
+                    break;
+                case 2:
+                    SPrice[0] = 3000;
+                    SText[0].transform.GetChild(0).GetComponent<Text>().text = "0G";
+                    SText[0].GetComponent<Text>().text = "고압용 산소통";
+                    break;
+                case 3:
+                    GameObject.Find("O2Gas_Sell").SetActive(false);
+                    break;
+            }
+
+            return;
+        }
+
+        if (Gold - SPrice[0] < 0) return;
+
+        Gold -= SPrice[0];
 
         O2level++;
 
         switch (O2level - 1)
         {
             case 1:
-                SText[0].transform.GetChild(0).GetComponent<Text>().text = SPrice[O2level - 1].ToString() + "G";
-                SText[0].transform.GetChild(1).GetComponent<Text>().text = "중압용 산소통";
+                SPrice[0] = 1000;
+                SText[0].transform.GetChild(0).GetComponent<Text>().text = SPrice[0].ToString() + "G";
+                SText[0].GetComponent<Text>().text = "중압용 산소통";
                 break;
             case 2:
-                SText[0].transform.GetChild(0).GetComponent<Text>().text = SPrice[O2level - 1].ToString() + "G";
-                SText[0].transform.GetChild(1).GetComponent<Text>().text = "고압용 산소통";
+                SPrice[0] = 3000;
+                SText[0].transform.GetChild(0).GetComponent<Text>().text = SPrice[0].ToString() + "G";
+                SText[0].GetComponent<Text>().text = "고압용 산소통";
                 break;
             case 3:
                 GameObject.Find("O2Gas_Sell").SetActive(false);
@@ -496,53 +616,163 @@ public class GameManager : MonoBehaviour
     }
     public void BagUpgrade()
     {
-        if (Gold - SPrice[2 + BagLevel] < 0) return;
+        if (isFree)
+        {
 
-        Gold -= SPrice[2 + BagLevel];
+            BagLevel++;
+            SlotLimt += 2;
+
+            switch (BagLevel - 1)
+            {
+                case 1:
+                    SPrice[1] = 5000;
+                    SText[1].transform.GetChild(0).GetComponent<Text>().text = "0G";
+                    SText[1].GetComponent<Text>().text = "초대형 가방";
+                    break;
+                case 2:
+                    MaxWeight = 400;
+                    GameObject.Find("Bag_Sell").SetActive(false);
+                    break;
+            }
+
+            int k = 1;
+            foreach (Transform child in Slot.transform)
+            {
+                if (SlotLimt >= k) Slot.transform.GetChild(k).GetComponent<Image>().color = Color.white;
+                else break;
+                k++;
+            }
+            return;
+        }
+
+        if (Gold - SPrice[1] < 0) return;
+
+        Gold -= SPrice[1];
 
         BagLevel++;
+        SlotLimt += 2;
 
-        switch (BagLevel)
+        switch (BagLevel - 1)
         {
-            case 2:
-                SlotLimt = 6;
+            case 1:
+                SPrice[1] = 5000;
                 MaxWeight = 250;
-                SText[1].transform.GetChild(0).GetComponent<Text>().text = SPrice[2 + BagLevel].ToString() + "G";
-                SText[1].transform.GetChild(1).GetComponent<Text>().text = "초대형 가방";
+                SText[1].transform.GetChild(0).GetComponent<Text>().text = SPrice[1].ToString() + "G";
+                SText[1].GetComponent<Text>().text = "초대형 가방";
                 break;
-            case 3:
-                SlotLimt = 8;
+            case 2:
                 MaxWeight = 400;
                 GameObject.Find("Bag_Sell").SetActive(false);
                 break;
         }
-        int j = 0;
-        foreach (Transform child in slot.transform)
+        int j = 1;
+        foreach (Transform child in Slot.transform)
         {
-            if (SlotLimt >= j + 1) slot.transform.GetChild(j).gameObject.SetActive(true);
+            if (SlotLimt >= j) Slot.transform.GetChild(j).GetComponent<Image>().color = Color.white;
             else break;
             j++;
         }
     }
     public void LightUpgrade()
     {
-        if (Gold - SPrice[5 + LightLevel] < 0) return;
+        if (isFree)
+        {
 
-        Gold -= SPrice[5 + LightLevel];
+            LightLevel++;
+            Dark.transform.localScale *= 1.2f;
+
+            switch (LightLevel - 1)
+            {
+                case 1:
+                    SPrice[2] = 1000;
+                    SText[2].transform.GetChild(0).GetComponent<Text>().text = "0G";
+                    SText[2].GetComponent<Text>().text = "초고급 손전등";
+                    break;
+                case 2:
+                    GameObject.Find("Light_Sell").SetActive(false);
+                    break;
+            }
+
+            return;
+        }
+
+        if (Gold - SPrice[2] < 0) return;
+
+        Gold -= SPrice[2];
 
         LightLevel++;
+        Dark.transform.localScale *= 1.2f;
 
-        switch (LightLevel)
+        switch (LightLevel - 1)
         {
             case 1:
-                SText[2].transform.GetChild(0).GetComponent<Text>().text = SPrice[4 + LightLevel].ToString() + "G";
-                SText[2].transform.GetChild(1).GetComponent<Text>().text = "초고급 손전등";
-                Dark.transform.localScale = new Vector3(1.75f, 2f);
+                SPrice[2] = 2000;
+                SText[2].transform.GetChild(0).GetComponent<Text>().text = SPrice[2].ToString() + "G";
+                SText[2].GetComponent<Text>().text = "초고급 손전등";
                 break;
             case 2:
                 GameObject.Find("Light_Sell").SetActive(false);
-                Dark.transform.localScale = new Vector3(2f, 2.5f);
                 break;
         }
+    }
+    public void KnifeUpgrade()
+    {
+        if (isFree)
+        {
+
+            KnifeLevel++;
+            Damage++;
+            AttackDelay -= 0.5f;
+
+            switch (KnifeLevel - 1)
+            {
+                case 1:
+                    SPrice[3] = 3000;
+                    SText[3].transform.GetChild(0).GetComponent<Text>().text = "0G";
+                    SText[3].GetComponent<Text>().text = "군용 단검";
+                    break;
+                case 2:
+                    GameObject.Find("Knife_Sell").SetActive(false);
+                    break;
+            }
+
+            return;
+        }
+
+        if (Gold - SPrice[3] < 0) return;
+
+        Gold -= SPrice[3];
+
+        KnifeLevel++;
+        Damage++;
+        AttackDelay -= 0.5f;
+
+        switch (KnifeLevel - 1)
+        {
+            case 1:
+                SPrice[3] = 3000;
+                SText[3].transform.GetChild(0).GetComponent<Text>().text = SPrice[3].ToString() + "G";
+                SText[3].GetComponent<Text>().text = "군용 단검";
+                break;
+            case 2:
+                GameObject.Find("Knife_Sell").SetActive(false);
+                break;
+        }
+    }
+    public void ShoseUpgrade()
+    {
+        if (isFree)
+        {
+            JumpLimt = 3;
+            GameObject.Find("Shose_Sell").SetActive(false);
+
+            return;
+        }
+        if (Gold - SPrice[4] < 0) return;
+
+        Gold -= SPrice[4];
+
+        JumpLimt = 3;
+        GameObject.Find("Shose_Sell").SetActive(false);
     }
 }

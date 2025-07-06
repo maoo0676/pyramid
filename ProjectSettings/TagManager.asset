@@ -5,10 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Items
-  - Doors
   - Monster
+  - Coin
   - Bullet
-  - Doorway
   layers:
   - Default
   - TransparentFX
@@ -16,11 +15,11 @@ TagManager:
   - 
   - Water
   - UI
-  - Walls
-  - Boxs
-  - Doors
-  - ____items_____
-  - Keys
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
