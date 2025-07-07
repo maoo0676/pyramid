@@ -283,9 +283,20 @@ public class Player : MonoBehaviour
         speak.SetActive(false);
         guide.SetActive(false);
         Debug.Log("¾óÀ½");
-        yield return new WaitForSeconds(5f);
 
-        GameManager.Instance.StageLoad(GameManager.Instance.mapId);
+        if (GameManager.Instance.Casual)
+        {
+            yield return new WaitForSeconds(2f);
+            rigid.position = new Vector3(1, -0.5f, 0);
+            GameManager.Instance.Hp = 8;
+            GameManager.Instance.curTime = 45;
+        }
+        else
+        {
+            yield return new WaitForSeconds(5f);
+            GameManager.Instance.StageLoad(GameManager.Instance.mapId);
+        }
+
         gameObject.GetComponent<SpriteRenderer>().color = Color.white;
 
         StartCoroutine(Freezecancel(2f));

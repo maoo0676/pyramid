@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Bat : MonoBehaviour
 {
     public int speed;
-    public Rigidbody2D Target;
+    public float range = 5f;
+    float distance;
 
-    float distance = 10f;
+    public Transform Target;
+
 
     Rigidbody2D rigid;
     SpriteRenderer rend;
@@ -17,29 +20,33 @@ public class Bat : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         rend = GetComponent<SpriteRenderer>();
-        distance = 10f;
     }
 
     private void Update()
     {
-        distance = Vector2.Distance(Target.position, rigid.velocity);
+
     }
 
     void FixedUpdate()
     {
-        Debug.Log(distance);
-        if (distance >= 5f || !gameObject.GetComponent<Monster>().isLive || gameObject.GetComponent<Monster>().isHit)
+        if (!gameObject.GetComponent<Monster>().isLive || gameObject.GetComponent<Monster>().isHit)
             return;
 
+        // 대상과의 거리 계산
+        distance = Vector3.Distance(transform.position, Target.position);
 
-        Vector2 dirVec = Target.position - rigid.position;
-        Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime;
-        rigid.MovePosition(rigid.position + nextVec);
+        // 범위 안에 들어오면 따라감
+        if (distance <= range)
+        {
+            // 대상 방향으로 이동
+            Vector3 direction = (Target.position - transform.position).normalized;
+            transform.position += direction * speed * Time.deltaTime;
+        }
     }
 
     void LateUpdate()
     {
-        if (distance >= 5f || !gameObject.GetComponent<Monster>().isLive || gameObject.GetComponent<Monster>().isHit)
+        if (distance >= 4f || !gameObject.GetComponent<Monster>().isLive || gameObject.GetComponent<Monster>().isHit)
             return;
 
         rend.flipX = Target.position.x < rigid.position.x;
