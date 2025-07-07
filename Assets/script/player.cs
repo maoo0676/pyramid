@@ -160,7 +160,8 @@ public class Player : MonoBehaviour
         if (guide.activeSelf) return;
         if (other.gameObject.CompareTag("Items")||other.gameObject.CompareTag("Coin")) Guide(true, 0);
         if (other.gameObject.name.Equals("Store") || other.gameObject.name.Equals("enter")) Guide(true, 1);
-        if (other.gameObject.name.Equals("exit")) Guide(true, 2);
+        if (other.gameObject.name.Equals("exit") && GameManager.Instance.Casual) Guide(true, 5);
+        if (other.gameObject.name.Equals("exit") && !GameManager.Instance.Casual) Guide(true, 2);
         if (other.gameObject.name.Equals("door")) Guide(true, 3);
         if (other.gameObject.name.Equals("runed_door")) Guide(true, 4);
     }
@@ -195,6 +196,9 @@ public class Player : MonoBehaviour
                     break;
                 case 4:
                     guide_text.GetComponent<Text>().text = "Press F to solve";
+                    break;
+                case 5:
+                    guide_text.GetComponent<Text>().text = "Press F to bring tresures";
                     break;
             }
         }

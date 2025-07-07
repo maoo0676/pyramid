@@ -36,6 +36,7 @@ public class CasualMode : MonoBehaviour
 
         if (time == 0)
         {
+            time = -1;
             GameManager.Instance.GameResult();
         }
     }

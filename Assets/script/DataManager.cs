@@ -90,8 +90,9 @@ public class DataManager : MonoBehaviour
             {
                 for (int j = 3; j >= i; j--)
                 {
+                    if (data.CasualScore[j] <= 0) continue;
+
                     data.CasualScore[j + 1] = data.CasualScore[j];
-                    if (data.CasualScore[j] <= 0) break;
                 }
                 data.CasualScore[i] = GameManager.Instance.Score;
 
