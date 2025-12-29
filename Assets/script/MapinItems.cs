@@ -6,8 +6,8 @@ using UnityEngine;
 public class Map : MonoBehaviour
 {
     public GameObject items;
-    public GameObject monsters;
     public GameObject[] Jem;
+    public GameObject monsters;
 
     public bool[] isGotten;
     public bool[] get;

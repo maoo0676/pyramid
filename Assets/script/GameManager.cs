@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
     public int JumpLimt = 0;
     public int Damage = 1;
     public GameObject Dark;
+    public bool isHide = false;
 
     [Header("# Bag Info")]
     public Image[] itemsimage;
@@ -328,6 +329,7 @@ public class GameManager : MonoBehaviour
                 break;
             case 5:
                 HitTime = 10;
+                isHide = true;
                 player.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
                 break;
             case 6:
@@ -410,6 +412,7 @@ public class GameManager : MonoBehaviour
                 if (nowfan == Fancount) Player.Instance.Speed = 5;
                 break;
             case 5:
+                isHide = false;
                 player.GetComponent<SpriteRenderer>().color = Color.white;
                 break;
             case 6:

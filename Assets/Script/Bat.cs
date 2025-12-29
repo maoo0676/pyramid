@@ -5,11 +5,12 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Bat : MonoBehaviour
 {
+    GameObject player;
     public int speed;
     public float range = 5f;
     float distance;
 
-    public Transform Target;
+    public bool isPlayerEnter;
 
 
     Rigidbody2D rigid;
@@ -18,6 +19,7 @@ public class Bat : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         rigid = GetComponent<Rigidbody2D>();
         rend = GetComponent<SpriteRenderer>();
     }
@@ -29,17 +31,17 @@ public class Bat : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!gameObject.GetComponent<Monster>().isLive || gameObject.GetComponent<Monster>().isHit)
+        if (!gameObject.GetComponent<Monster>().isLive || gameObject.GetComponent<Monster>().isHit || GameManager.Instance.isHide)
             return;
 
         // 대상과의 거리 계산
-        distance = Vector3.Distance(transform.position, Target.position);
+        distance = Vector3.Distance(transform.position, player.transform.position);
 
         // 범위 안에 들어오면 따라감
         if (distance <= range)
         {
             // 대상 방향으로 이동
-            Vector3 direction = (Target.position - transform.position).normalized;
+            Vector3 direction = (player.transform.position - transform.position).normalized;
             transform.position += direction * speed * Time.deltaTime;
         }
     }
@@ -49,6 +51,6 @@ public class Bat : MonoBehaviour
         if (distance >= 4f || !gameObject.GetComponent<Monster>().isLive || gameObject.GetComponent<Monster>().isHit)
             return;
 
-        rend.flipX = Target.position.x < rigid.position.x;
+        rend.flipX = player.transform.position.x < rigid.position.x;
     }
 }
