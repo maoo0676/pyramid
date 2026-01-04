@@ -1,42 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Ghost : MonoBehaviour
 {
+    GameObject player;
     public int speed;
-    public GameObject Return;
+    public float range = 5f;
+    float distance;
 
-    public bool turn = true;
+    public bool isPlayerEnter;
 
+
+    Rigidbody2D rigid;
     SpriteRenderer rend;
 
     // Start is called before the first frame update
     void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        rigid = GetComponent<Rigidbody2D>();
         rend = GetComponent<SpriteRenderer>();
+    }
+
+    private void Update()
+    {
+
     }
 
     void FixedUpdate()
     {
-        Vector3 moveVelocity = Vector3.zero;
+        if (!gameObject.GetComponent<Monster>().isLive || gameObject.GetComponent<Monster>().isHit || GameManager.Instance.isHide)
+            return;
 
-        if (turn)
-        {
-            moveVelocity = Vector3.right;
-            rend.flipX = false;
-        }
-        else
-        {
-            moveVelocity = Vector3.left;
-            rend.flipX = true;
-        }
+        // 대상과의 거리 계산
+        distance = Vector3.Distance(transform.position, player.transform.position);
 
-        transform.position += moveVelocity * speed * Time.deltaTime;
+        // 범위 안에 들어오면 따라감
+        if (distance <= range)
+        {
+            // 대상 방향으로 이동
+            Vector3 direction = (player.transform.position - transform.position).normalized;
+            transform.position += direction * speed * Time.deltaTime;
+        }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void LateUpdate()
     {
-        if (other.gameObject == Return.gameObject) turn = !turn;
+        if (distance >= 4f || !gameObject.GetComponent<Monster>().isLive || gameObject.GetComponent<Monster>().isHit)
+            return;
+
+        rend.flipX = player.transform.position.x < rigid.position.x;
     }
 }

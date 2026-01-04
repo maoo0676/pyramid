@@ -8,9 +8,9 @@ public class Monster : MonoBehaviour
     public bool isHit = false;
     public int Hp;
     int hp;
-    public int Id; // 0 유령
-                   // 1 박쥐
-                   // 3 기사
+    public int Id; // 0 오크
+                   // 1 유령
+                   // 2 기사
     Vector2 respawn;
     Rigidbody2D rigid;
 

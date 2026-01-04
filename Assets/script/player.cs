@@ -156,6 +156,10 @@ public class Player : MonoBehaviour
             return;
         }
         if (other.gameObject.name.Equals("hidden")) other.gameObject.GetComponent<Tilemap>().color = new Color(1, 1, 1, 1 / 2f);
+        if (other.gameObject.name.Equals("ladder")) {
+            JumpCount = 0;
+            JumpPower = 5;
+        }
 
         if (guide.activeSelf) return;
         if (other.gameObject.CompareTag("Items")||other.gameObject.CompareTag("Coin")) Guide(true, 0);
@@ -169,6 +173,7 @@ public class Player : MonoBehaviour
     {
         Guide(false, 0);
         if (other.gameObject.name.Equals("hidden")) other.gameObject.GetComponent<Tilemap>().color = Color.white;
+        if (other.gameObject.name.Equals("ladder")) JumpPower = 13;
     }
 
     public void Guide(bool turning, int i)
